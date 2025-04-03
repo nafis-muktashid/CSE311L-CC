@@ -13,7 +13,7 @@
 	<body>
 		<div class="container">
 			<div class="form-box" id="login-form">
-				<form action="login.php" method="POST">
+				<form action="./utilities/verify_login.php" method="POST">
 					<h2>ConnectCore</h2>
 					<input type="email" name="email" placeholder="Email" required />
 					<input type="password" name="password" placeholder="Password" required />

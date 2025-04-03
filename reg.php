@@ -14,7 +14,7 @@
 
         <div class="container">
 			<div class="form-box " id="register-form">
-				<form action="reg.php" method="POST">
+				<form action="./utilities/verify_reg.php" method="POST">
 					<h2>ConnectCore</h2>
 					<input type="text" name="name" placeholder="Company Name" required/>
 					<input type="text" name="industry" placeholder="Industry" required/>

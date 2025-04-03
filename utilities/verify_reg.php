@@ -39,7 +39,8 @@ if(isset($_POST['register'])){
     }
     
     //Create account
-    $password = password_hash($_POST['$password'], PASSWORD_DEFAULT);
+    
+    // $password = password_hash($_POST['$password'], PASSWORD_DEFAULT);
     
     $query1 = "INSERT INTO users(`password`, `name`, `email`, `phone_num`, `user_type`) 
             VALUES ('$password', '$name', '$email', '$company_phone', 'company')";
