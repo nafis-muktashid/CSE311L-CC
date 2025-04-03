@@ -14,17 +14,16 @@
 
         <div class="container">
 			<div class="form-box " id="register-form">
-				<form action="register.php" method="POST">
+				<form action="reg.php" method="POST">
 					<h2>ConnectCore</h2>
-					<!-- name, industry_type, email, password, phone, address -->
 					<input type="text" name="name" placeholder="Company Name" required/>
 					<input type="text" name="industry" placeholder="Industry" required/>
 					<input type="email" name="email" placeholder="Email" required/>
 					<input type="password" name="password" placeholder="Password" required/>
 					<input type="number" name="phone" placeholder="Company Phone"/>
-					<input type="number" name="address" placeholder="Company Address"/>
+					<input type="text" name="address" placeholder="Company Address"/>
 					<button type="submit" name="register">Register</button>
-					<p>Already have an account?<a href="login.php">Login</a></p>
+					<p>Already have an account? <a href="login.php">Login</a></p>
 				</form>
 			</div>
 		</div>
