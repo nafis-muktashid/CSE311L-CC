@@ -3,6 +3,7 @@
 session_start();
 require_once 'con_db.php';
 
+//input validator function
 function validate_input($condition, $error_msg){
     if($condition){
         $_SESSION['error_message'] = $error_msg;
@@ -24,7 +25,7 @@ if(isset($_POST['register'])){
     $company_phone = htmlspecialchars($company_phone);
     
     //Input VAlidator
-    validate_input(strlen($password) <8, "Password must be at least 8 characters.");
+    validate_input(strlen($password) < 8, "Password must be at least 8 characters.");
     validate_input(strlen($company_phone) != 11, "Phone number must be 11 digits.");
     
     $query0 = "SELECT * FROM companies WHERE email = '$email'";
