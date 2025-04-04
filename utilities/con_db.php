@@ -10,9 +10,9 @@
 
     if($db_connection -> connect_error){
         die("Connection Failed: ".$db_connection->connect_error);
-        echo "Code issue";
+        // echo "Code issue";
     }else{
-        echo "Connection Okay";
+        // echo "Connection Okay";
     }
 
 
