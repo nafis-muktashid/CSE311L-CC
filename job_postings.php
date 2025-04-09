@@ -1,5 +1,31 @@
 <?php
+// Ensure no caching
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 session_start();
+
+// Verify session and company ID if user is a company
+if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'company') {
+    if (!isset($_SESSION['companyId'])) {
+        // Re-fetch company ID if missing
+        require_once './utilities/con_db.php';
+        $email = $_SESSION['email'];
+        $companyQuery = "SELECT companyId FROM companies WHERE email = ?";
+        $stmt = $db_connection->prepare($companyQuery);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            $_SESSION['companyId'] = $row['companyId'];
+        }
+    }
+}
+
+// Add debug output
+error_log('Current session data: ' . print_r($_SESSION, true));
+
 require_once './utilities/con_db.php';
 require_once './components/header.php';
 
@@ -58,9 +84,13 @@ $result = $db_connection->query($query);
                             </div>
                             <div class="job-actions">
                                 <button class="view-details" onclick="showJobDetails(
+                                    '<?php echo $row['jobId']; ?>', 
                                     '<?php echo str_replace("'", "\\'", htmlspecialchars($row['job_title'])); ?>', 
                                     '<?php echo str_replace("'", "\\'", htmlspecialchars($row['job_details'])); ?>', 
-                                    '<?php echo str_replace("'", "\\'", htmlspecialchars($row['company_name'])); ?>'
+                                    '<?php echo str_replace("'", "\\'", htmlspecialchars($row['company_name'])); ?>',
+                                    '<?php echo $row['companyId']; ?>',
+                                    '<?php echo $row['rate']; ?>',
+                                    '<?php echo isset($_SESSION['companyId']) ? $_SESSION['companyId'] : 'null'; ?>'
                                 )">
                                     <i class="fas fa-eye"></i> View Details
                                 </button>
@@ -90,6 +120,24 @@ $result = $db_connection->query($query);
             <h2 id="modalJobTitle"></h2>
             <h3 id="modalCompanyName"></h3>
             <p id="modalJobDetails"></p>
+            
+            <?php if(isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'company'): ?>
+            <div id="applicationSection" class="application-section">
+                <div class="rate-offer">
+                    <label for="offerRate">Your Rate Offer ($/hr):</label>
+                    <input type="number" id="offerRate" min="1" step="0.01">
+                </div>
+                <div class="action-buttons">
+                    <button id="applyButton" class="apply-modal-btn">
+                        <i class="fas fa-paper-plane"></i> Apply Now
+                    </button>
+                    <button id="offerButton" class="offer-btn">
+                        <i class="fas fa-dollar-sign"></i> Submit Rate Offer
+                    </button>
+                </div>
+                <p id="applicationMessage" class="application-message"></p>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 

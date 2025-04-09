@@ -15,10 +15,19 @@ if(isset($_POST)){
             // Store all necessary session variables
             $_SESSION['name'] = $user['name'];
             $_SESSION['email'] = $user['email'];
-            $_SESSION['user_type'] = $user['user_type'];  // Added this line
+            $_SESSION['user_type'] = $user['user_type'];
 
             if($user['user_type'] === 'company'){
-                header("Location: ../dashboard.php"); //login success
+                // Get and store company ID
+                $companyQuery = "SELECT companyId FROM companies WHERE email = ?";
+                $stmt = $db_connection->prepare($companyQuery);
+                $stmt->bind_param("s", $user['email']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                if($row = $result->fetch_assoc()) {
+                    $_SESSION['companyId'] = $row['companyId'];
+                }
+                header("Location: ../dashboard.php");
             }else{
                 header("Location: ../admin_dashboard.php");
             }

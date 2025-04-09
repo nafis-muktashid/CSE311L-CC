@@ -1,5 +1,15 @@
 <?php
+// Ensure no caching
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 session_start();
+
+// Clear any existing session data on login page
+if (!isset($_POST['email'])) {
+    $_SESSION = array();
+}
 ?>
 
 <!DOCTYPE html>
@@ -7,6 +17,10 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Add cache control meta tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Login - ConnectCore</title>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/auth.css">
