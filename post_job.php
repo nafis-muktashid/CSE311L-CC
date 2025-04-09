@@ -31,7 +31,7 @@ if (!isset($_SESSION['email'])) {
             </div>
 
             <div class="form-container">
-                <form action="./utilities/process_job_post.php" method="POST" class="job-form">
+                <form action="./utilities/post_job_button.php" method="POST" class="job-form">
                     <div class="form-group">
                         <label for="job_title">
                             <i class="fas fa-briefcase"></i> Job Title
@@ -54,11 +54,13 @@ if (!isset($_SESSION['email'])) {
                     </div>
 
                     <div class="form-group">
-                        <label for="description">
+                        <label for="job_details">
                             <i class="fas fa-file-alt"></i> Job Description
                         </label>
-                        <textarea id="description" name="description" rows="6" required></textarea>
+                        <textarea id="job_details" name="job_details" rows="6" required></textarea>
                     </div>
+
+                    <input type="hidden" name="post_job" value="1">
 
                     <button type="submit" class="submit-btn">
                         <i class="fas fa-paper-plane"></i> Post Job

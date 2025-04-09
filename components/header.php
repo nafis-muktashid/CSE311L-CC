@@ -16,6 +16,9 @@ function renderHeader($activeTab = '') {
             <a href="job_postings.php" class="<?php echo $activeTab === 'job_postings' ? 'active' : ''; ?>">
                 <i class="fas fa-list"></i> View Jobs
             </a>
+            <a href="manage_applications.php" class="<?php echo $activeTab === 'manage_applications' ? 'active' : ''; ?>">
+                <i class="fas fa-tasks"></i> Manage Applications
+            </a>
             <a href="./utilities/logout.php" class="logout-btn">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>

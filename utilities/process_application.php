@@ -4,44 +4,88 @@ require_once 'con_db.php';
 
 header('Content-Type: application/json');
 
-// Check if user is logged in
-if (!isset($_SESSION['email'])) {
-    echo json_encode(['success' => false, 'message' => 'Please log in to apply']);
-    exit;
-}
+try {
+    // Check if user is logged in
+    if (!isset($_SESSION['email'])) {
+        throw new Exception('Please log in to apply');
+    }
 
-// Get POST data
-$data = json_decode(file_get_contents('php://input'), true);
-$jobId = $data['jobId'];
-$type = $data['type'];
-$offerRate = isset($data['offerRate']) ? floatval($data['offerRate']) : null;
+    // Get POST data
+    $data = json_decode(file_get_contents('php://input'), true);
+    if (!$data) {
+        throw new Exception('Invalid request data');
+    }
 
-// Get user's company ID
-$userCompanyId = $_SESSION['companyId'];
+    $jobId = $data['jobId'];
+    $type = $data['type'];
+    $offerRate = isset($data['offerRate']) ? floatval($data['offerRate']) : null;
+    $userCompanyId = $_SESSION['companyId'];
 
-// Check if already applied
-$checkQuery = "SELECT applicationId FROM jobapplications 
-              WHERE applyingCompanyId = ? AND jobId = ?";
-$stmt = $db_connection->prepare($checkQuery);
-$stmt->bind_param("ii", $userCompanyId, $jobId);
-$stmt->execute();
-$result = $stmt->get_result();
+    // First, get the job posting details to check ownership
+    $jobQuery = "SELECT companyId FROM jobpostings WHERE jobId = ?";
+    $stmt = $db_connection->prepare($jobQuery);
+    $stmt->bind_param("i", $jobId);
+    $stmt->execute();
+    $jobResult = $stmt->get_result();
+    $jobData = $jobResult->fetch_assoc();
 
-if ($result->num_rows > 0) {
-    echo json_encode(['success' => false, 'message' => 'You have already applied to this job']);
-    exit;
-}
+    if (!$jobData) {
+        throw new Exception('Job posting not found');
+    }
 
-// Insert application
-$query = "INSERT INTO jobapplications (applyingCompanyId, jobId, application_type, offer_rate, status) 
-          VALUES (?, ?, ?, ?, 'pending')";
-$stmt = $db_connection->prepare($query);
-$stmt->bind_param("iiss", $userCompanyId, $jobId, $type, $offerRate);
+    // Check if the user is trying to apply to their own job posting
+    if ($jobData['companyId'] == $userCompanyId) {
+        throw new Exception('You cannot apply to your own job posting');
+    }
 
-if ($stmt->execute()) {
+    // Check if already applied
+    $checkQuery = "SELECT applicationId, status FROM jobapplications 
+                  WHERE applyingCompanyId = ? AND jobId = ?";
+    $stmt = $db_connection->prepare($checkQuery);
+    $stmt->bind_param("ii", $userCompanyId, $jobId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $existingApplication = $result->fetch_assoc();
+        if ($existingApplication['status'] !== 'withdrawn') {
+            throw new Exception('You have already applied to this job');
+        }
+    }
+
+    // Insert application
+    $query = "INSERT INTO jobapplications (applyingCompanyId, jobId, offer_rate, status) 
+              VALUES (?, ?, ?, 'pending')";
+    $stmt = $db_connection->prepare($query);
+    $stmt->bind_param("iid", $userCompanyId, $jobId, $offerRate);
+
+    if (!$stmt->execute()) {
+        throw new Exception('Error submitting application');
+    }
+
+    // Send notification
+    $notificationQuery = "INSERT INTO notifications (userId, message, read_status, time) 
+                         VALUES (?, ?, 0, CURRENT_TIMESTAMP)";
+    $stmt = $db_connection->prepare($notificationQuery);
+    
+    $message = $offerRate 
+        ? "New rate offer of $" . $offerRate . " received for your job posting"
+        : "New application received for your job posting";
+    
+    $stmt->bind_param("is", 
+        $jobData['companyId'], 
+        $message
+    );
+    $stmt->execute();
+
     $message = $type === 'apply' ? 'Application submitted successfully' : 'Rate offer submitted successfully';
     echo json_encode(['success' => true, 'message' => $message]);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Error submitting application']);
+
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
 ?>
+
+
+
+

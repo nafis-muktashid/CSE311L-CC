@@ -97,7 +97,12 @@ function submitApplication(type) {
 		},
 		body: JSON.stringify(data),
 	})
-		.then((response) => response.json())
+		.then((response) => {
+			if (!response.ok) {
+				throw new Error("Network response was not ok");
+			}
+			return response.json();
+		})
 		.then((data) => {
 			if (data.success) {
 				showMessage(data.message, "success");
@@ -108,6 +113,7 @@ function submitApplication(type) {
 			}
 		})
 		.catch((error) => {
+			console.error("Error:", error);
 			showMessage("An error occurred. Please try again.", "error");
 		});
 }
