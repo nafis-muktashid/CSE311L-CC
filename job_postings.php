@@ -23,9 +23,6 @@ if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'company') {
     }
 }
 
-// Add debug output
-error_log('Current session data: ' . print_r($_SESSION, true));
-
 require_once './utilities/con_db.php';
 require_once './components/header.php';
 
@@ -35,12 +32,30 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Fetch ALL job postings with company names
+// Modify query to exclude current company's posts
 $query = "SELECT j.*, c.name as company_name 
           FROM jobpostings j 
           LEFT JOIN companies c ON j.companyId = c.companyId 
-          ORDER BY j.posted_time DESC";
-$result = $db_connection->query($query);
+          WHERE 1=1";
+
+// Add condition to exclude current company's posts if user is a company
+$params = [];
+$types = "";
+
+if (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'company') {
+    $query .= " AND j.companyId != ?";
+    $params[] = $_SESSION['companyId'];
+    $types .= "i";
+}
+
+$query .= " ORDER BY j.posted_time DESC";
+
+$stmt = $db_connection->prepare($query);
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +63,7 @@ $result = $db_connection->query($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Job Postings - ConnectCore</title>
+    <title>Job Postings - ConnectCore</title>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/job_postings.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -60,7 +75,7 @@ $result = $db_connection->query($query);
         <div class="content-wrapper">
             <div class="page-header">
                 <h1><i class="fas fa-list-alt"></i> Available Job Postings</h1>
-                <p>Browse through all available opportunities</p>
+                <p>Browse through opportunities from other companies</p>
             </div>
 
             <div class="jobs-container">
@@ -106,7 +121,7 @@ $result = $db_connection->query($query);
                     <div class="no-jobs">
                         <i class="fas fa-folder-open"></i>
                         <h2>No Job Postings Available</h2>
-                        <p>Check back later for new opportunities</p>
+                        <p>Check back later for new opportunities from other companies</p>
                     </div>
                 <?php endif; ?>
             </div>
