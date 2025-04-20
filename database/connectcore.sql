@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2025 at 08:40 PM
+-- Generation Time: Apr 20, 2025 at 09:00 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,33 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `activitylog`
---
-
-CREATE TABLE `activitylog` (
-  `logId` int(11) NOT NULL,
-  `userId` int(11) DEFAULT NULL,
-  `action` text NOT NULL,
-  `time` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `audit_logs`
---
-
-CREATE TABLE `audit_logs` (
-  `log_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `action_type` varchar(255) NOT NULL,
-  `action_details` text NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `companies`
 --
 
@@ -64,6 +37,14 @@ CREATE TABLE `companies` (
   `registered_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `companies`
+--
+
+INSERT INTO `companies` (`companyId`, `name`, `industry_type`, `email`, `phone`, `address`, `registered_at`) VALUES
+(8, 'last', 'death', 'op@redit.com', '56443546322', 'dajksfdkjwcvn', '2025-04-04 14:32:07'),
+(9, 'test', 'test_industry', 'test@example.com', '01010101011', 'uttor', '2025-04-04 17:04:31');
+
 -- --------------------------------------------------------
 
 --
@@ -75,7 +56,7 @@ CREATE TABLE `company_subscriptions` (
   `company_id` int(11) NOT NULL,
   `plan_id` int(11) NOT NULL,
   `start_date` date NOT NULL,
-  `end_date` date NOT NULL
+  `end_date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -97,16 +78,16 @@ CREATE TABLE `contracts` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `disputes`
+-- Table structure for table `contract_reviews`
 --
 
-CREATE TABLE `disputes` (
-  `dispute_id` int(11) NOT NULL,
+CREATE TABLE `contract_reviews` (
+  `review_id` int(11) NOT NULL,
   `contract_id` int(11) NOT NULL,
-  `raised_by_company_id` int(11) NOT NULL,
-  `against_company_id` int(11) NOT NULL,
-  `reason` text NOT NULL,
-  `status` enum('Open','In Progress','Resolved','Closed') DEFAULT 'Open',
+  `reviewer_company_id` int(11) NOT NULL,
+  `reviewee_company_id` int(11) NOT NULL,
+  `rating` int(11) DEFAULT NULL CHECK (`rating` between 1 and 5),
+  `comment` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -121,6 +102,18 @@ CREATE TABLE `employeeassignments` (
   `contractId` int(11) DEFAULT NULL,
   `companyId` int(11) DEFAULT NULL,
   `employeeId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employeephone`
+--
+
+CREATE TABLE `employeephone` (
+  `id` int(11) NOT NULL,
+  `employeeId` int(11) NOT NULL,
+  `phone_number` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -163,8 +156,18 @@ CREATE TABLE `jobapplications` (
   `applyingCompanyId` int(11) DEFAULT NULL,
   `jobId` int(11) DEFAULT NULL,
   `apply_time` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` enum('pending','accepted','rejected') DEFAULT 'pending'
+  `status` enum('pending','accepted','rejected','withdrawn') DEFAULT 'pending',
+  `application_type` enum('apply','offer') NOT NULL DEFAULT 'apply',
+  `offer_rate` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jobapplications`
+--
+
+INSERT INTO `jobapplications` (`applicationId`, `applyingCompanyId`, `jobId`, `apply_time`, `status`, `application_type`, `offer_rate`) VALUES
+(12, 8, 5, '2025-04-09 09:41:40', 'accepted', 'apply', 1300.00),
+(13, 9, 4, '2025-04-09 09:42:11', 'rejected', 'apply', NULL);
 
 -- --------------------------------------------------------
 
@@ -175,13 +178,21 @@ CREATE TABLE `jobapplications` (
 CREATE TABLE `jobpostings` (
   `jobId` int(11) NOT NULL,
   `job_title` varchar(255) NOT NULL,
-  `required_skill` int(11) DEFAULT NULL,
+  `required_skill` varchar(64) DEFAULT NULL,
   `job_details` text DEFAULT NULL,
   `rate` decimal(10,2) DEFAULT NULL,
   `status` enum('open','closed') DEFAULT 'open',
   `posted_time` timestamp NOT NULL DEFAULT current_timestamp(),
   `companyId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jobpostings`
+--
+
+INSERT INTO `jobpostings` (`jobId`, `job_title`, `required_skill`, `job_details`, `rate`, `status`, `posted_time`, `companyId`) VALUES
+(4, 'PHP dev', 'PHP', 'Need someone with PHP and SQL', 1300.00, 'open', '2025-04-09 09:04:08', 8),
+(5, 'Content Writer', 'content writing', 'Need social media content writer', 1000.00, 'open', '2025-04-09 09:12:22', 9);
 
 -- --------------------------------------------------------
 
@@ -196,6 +207,26 @@ CREATE TABLE `notifications` (
   `read_status` tinyint(1) DEFAULT 0,
   `time` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`notificationId`, `userId`, `message`, `read_status`, `time`) VALUES
+(1, 8, 'New application received for your job posting', 0, '2025-04-09 09:18:30'),
+(2, 9, 'New rate offer of $500 received for your job posting', 0, '2025-04-09 09:20:26'),
+(3, 9, 'New rate offer of $750 received for your job posting', 0, '2025-04-09 09:24:07'),
+(4, 8, 'Your application has been accepted for job: RMG worker', 0, '2025-04-09 09:24:46'),
+(5, 8, 'New rate offer of $5000 received for your job posting', 0, '2025-04-09 09:28:47'),
+(6, 9, 'Your application has been rejected for job: Strategist', 0, '2025-04-09 09:29:00'),
+(7, 9, 'New rate offer of $1500 received for your job posting', 0, '2025-04-09 09:32:35'),
+(8, 8, 'Your application has been accepted for job: Content Writer', 0, '2025-04-09 09:33:11'),
+(9, 8, 'New application received for your job posting', 0, '2025-04-09 09:33:21'),
+(10, 9, 'Your application has been rejected for job: PHP dev', 0, '2025-04-09 09:33:48'),
+(11, 9, 'New rate offer of $1300 received for your job posting', 0, '2025-04-09 09:41:40'),
+(12, 8, 'Your application has been accepted for job: Content Writer', 0, '2025-04-09 09:42:05'),
+(13, 8, 'New application received for your job posting', 0, '2025-04-09 09:42:11'),
+(14, 9, 'Your application has been rejected for job: PHP dev', 0, '2025-04-09 09:42:16');
 
 -- --------------------------------------------------------
 
@@ -255,6 +286,14 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`userId`, `password`, `name`, `email`, `phone_num`, `user_type`, `created_at`) VALUES
+(8, '12345678', 'last', 'op@redit.com', '56443546322', 'company', '2025-04-04 14:32:07'),
+(9, 'testpass', 'test', 'test@example.com', '01010101011', 'company', '2025-04-04 17:04:31');
+
+--
 -- Triggers `users`
 --
 DELIMITER $$
@@ -270,20 +309,6 @@ DELIMITER ;
 --
 -- Indexes for dumped tables
 --
-
---
--- Indexes for table `activitylog`
---
-ALTER TABLE `activitylog`
-  ADD PRIMARY KEY (`logId`),
-  ADD KEY `fk_user` (`userId`);
-
---
--- Indexes for table `audit_logs`
---
-ALTER TABLE `audit_logs`
-  ADD PRIMARY KEY (`log_id`),
-  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `companies`
@@ -310,13 +335,13 @@ ALTER TABLE `contracts`
   ADD KEY `jobId` (`jobId`);
 
 --
--- Indexes for table `disputes`
+-- Indexes for table `contract_reviews`
 --
-ALTER TABLE `disputes`
-  ADD PRIMARY KEY (`dispute_id`),
+ALTER TABLE `contract_reviews`
+  ADD PRIMARY KEY (`review_id`),
   ADD KEY `contract_id` (`contract_id`),
-  ADD KEY `raised_by_company_id` (`raised_by_company_id`),
-  ADD KEY `against_company_id` (`against_company_id`);
+  ADD KEY `reviewer_company_id` (`reviewer_company_id`),
+  ADD KEY `reviewee_company_id` (`reviewee_company_id`);
 
 --
 -- Indexes for table `employeeassignments`
@@ -325,6 +350,13 @@ ALTER TABLE `employeeassignments`
   ADD PRIMARY KEY (`recordId`),
   ADD KEY `contractId` (`contractId`),
   ADD KEY `companyId` (`companyId`),
+  ADD KEY `employeeId` (`employeeId`);
+
+--
+-- Indexes for table `employeephone`
+--
+ALTER TABLE `employeephone`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `employeeId` (`employeeId`);
 
 --
@@ -397,22 +429,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `activitylog`
---
-ALTER TABLE `activitylog`
-  MODIFY `logId` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `audit_logs`
---
-ALTER TABLE `audit_logs`
-  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `companyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `companyId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `company_subscriptions`
@@ -427,16 +447,22 @@ ALTER TABLE `contracts`
   MODIFY `contractId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `disputes`
+-- AUTO_INCREMENT for table `contract_reviews`
 --
-ALTER TABLE `disputes`
-  MODIFY `dispute_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `contract_reviews`
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employeeassignments`
 --
 ALTER TABLE `employeeassignments`
   MODIFY `recordId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `employeephone`
+--
+ALTER TABLE `employeephone`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `employees`
@@ -448,19 +474,19 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `jobapplications`
 --
 ALTER TABLE `jobapplications`
-  MODIFY `applicationId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `applicationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `jobpostings`
 --
 ALTER TABLE `jobpostings`
-  MODIFY `jobId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `jobId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notificationId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `notificationId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -484,17 +510,11 @@ ALTER TABLE `subscription_plans`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `activitylog`
---
-ALTER TABLE `activitylog`
-  ADD CONSTRAINT `fk_activitylog_user` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `companies`
@@ -508,9 +528,22 @@ ALTER TABLE `companies`
 ALTER TABLE `company_subscriptions`
   ADD CONSTRAINT `company_subscriptions_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`companyId`),
   ADD CONSTRAINT `company_subscriptions_ibfk_2` FOREIGN KEY (`plan_id`) REFERENCES `subscription_plans` (`plan_id`);
+
+--
+-- Constraints for table `contract_reviews`
+--
+ALTER TABLE `contract_reviews`
+  ADD CONSTRAINT `contract_reviews_ibfk_1` FOREIGN KEY (`contract_id`) REFERENCES `contracts` (`contractId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `contract_reviews_ibfk_2` FOREIGN KEY (`reviewer_company_id`) REFERENCES `companies` (`companyId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `contract_reviews_ibfk_3` FOREIGN KEY (`reviewee_company_id`) REFERENCES `companies` (`companyId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `employeephone`
+--
+ALTER TABLE `employeephone`
+  ADD CONSTRAINT `employeephone_ibfk_1` FOREIGN KEY (`employeeId`) REFERENCES `employees` (`employeeId`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
