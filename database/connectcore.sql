@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2025 at 09:00 AM
+-- Generation Time: Apr 20, 2025 at 01:06 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -520,14 +520,22 @@ ALTER TABLE `users`
 -- Constraints for table `companies`
 --
 ALTER TABLE `companies`
-  ADD CONSTRAINT `delete_on_user_deletion` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON DELETE CASCADE;
+  ADD CONSTRAINT `delete_on_user_deletion` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `company_subscriptions`
 --
 ALTER TABLE `company_subscriptions`
-  ADD CONSTRAINT `company_subscriptions_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`companyId`),
-  ADD CONSTRAINT `company_subscriptions_ibfk_2` FOREIGN KEY (`plan_id`) REFERENCES `subscription_plans` (`plan_id`);
+  ADD CONSTRAINT `company_subscriptions_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`companyId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `company_subscriptions_ibfk_2` FOREIGN KEY (`plan_id`) REFERENCES `subscription_plans` (`plan_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `contracts`
+--
+ALTER TABLE `contracts`
+  ADD CONSTRAINT `contracts_applying_company_fk` FOREIGN KEY (`applyingCompanyId`) REFERENCES `companies` (`companyId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `contracts_hiring_company_fk` FOREIGN KEY (`hiringCompanyId`) REFERENCES `companies` (`companyId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `contracts_job_fk` FOREIGN KEY (`jobId`) REFERENCES `jobpostings` (`jobId`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `contract_reviews`
@@ -542,6 +550,38 @@ ALTER TABLE `contract_reviews`
 --
 ALTER TABLE `employeephone`
   ADD CONSTRAINT `employeephone_ibfk_1` FOREIGN KEY (`employeeId`) REFERENCES `employees` (`employeeId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `employees`
+--
+ALTER TABLE `employees`
+  ADD CONSTRAINT `employees_company_fk` FOREIGN KEY (`companyId`) REFERENCES `companies` (`companyId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `employeeskills`
+--
+ALTER TABLE `employeeskills`
+  ADD CONSTRAINT `employeeskills_employee_fk` FOREIGN KEY (`employeeId`) REFERENCES `employees` (`employeeId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `employeeskills_skill_fk` FOREIGN KEY (`skillId`) REFERENCES `skills` (`skillId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `jobapplications`
+--
+ALTER TABLE `jobapplications`
+  ADD CONSTRAINT `jobapplications_ibfk_1` FOREIGN KEY (`jobId`) REFERENCES `jobpostings` (`jobId`) ON DELETE CASCADE,
+  ADD CONSTRAINT `jobapplications_ibfk_2` FOREIGN KEY (`applyingCompanyId`) REFERENCES `companies` (`companyId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_user_fk` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `payments_contract_fk` FOREIGN KEY (`contractId`) REFERENCES `contracts` (`contractId`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
