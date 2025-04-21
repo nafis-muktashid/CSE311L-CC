@@ -33,11 +33,9 @@
 	border-radius: 10px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	padding: 20px;
-	transition: transform 0.3s ease;
-}
-
-.application-card:hover {
-	transform: translateY(-5px);
+	display: flex;
+	flex-direction: column;
+	/* Removed the transform transition and hover effect */
 }
 
 .application-header h2 {
@@ -78,9 +76,8 @@
 }
 
 .application-actions {
-	display: flex;
-	gap: 10px;
-	margin-top: 15px;
+	margin-top: auto;
+	width: 100%;
 }
 
 .accept-btn,
@@ -135,6 +132,104 @@
 
 .no-applications p {
 	color: #7f8c8d;
+}
+
+.employee-assignment-section {
+	width: 100%;
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px solid #eee;
+}
+
+.employee-select-container {
+	margin-top: 15px;
+	padding-top: 15px;
+	border-top: 1px solid #eee;
+}
+
+.employee-select {
+	width: 100%;
+	padding: 8px;
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	background-color: white;
+}
+
+.action-buttons {
+	display: flex;
+	gap: 10px;
+	justify-content: flex-end;
+}
+
+.confirm-btn,
+.cancel-btn {
+	padding: 8px 15px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.confirm-btn {
+	background-color: #4caf50;
+	color: white;
+}
+
+.cancel-btn {
+	background-color: #f44336;
+	color: white;
+}
+
+.initial-buttons {
+	display: flex;
+	gap: 10px;
+	justify-content: flex-end;
+	width: 100%;
+}
+
+.accept-btn,
+.reject-btn {
+	padding: 8px 15px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.accept-btn {
+	background-color: #4caf50;
+	color: white;
+}
+
+.reject-btn {
+	background-color: #f44336;
+	color: white;
+}
+
+.accept-btn:hover,
+.confirm-btn:hover {
+	background-color: #45a049;
+}
+
+.reject-btn:hover,
+.cancel-btn:hover {
+	background-color: #da190b;
+}
+
+/* Remove any position: fixed or absolute from these elements */
+#assignEmployeeModal,
+.modal-content {
+	position: static;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+	box-shadow: none;
 }
 
 @media (max-width: 768px) {

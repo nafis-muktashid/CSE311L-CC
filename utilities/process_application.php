@@ -54,10 +54,11 @@ try {
     }
 
     // Insert application
-    $query = "INSERT INTO jobapplications (applyingCompanyId, jobId, offer_rate, status) 
-              VALUES (?, ?, ?, 'pending')";
+    $query = "INSERT INTO jobapplications (applyingCompanyId, jobId, offer_rate, status, application_type) 
+              VALUES (?, ?, ?, 'pending', ?)";
     $stmt = $db_connection->prepare($query);
-    $stmt->bind_param("iid", $userCompanyId, $jobId, $offerRate);
+    $applicationType = ($type === 'offer') ? 'offer' : 'apply';
+    $stmt->bind_param("iids", $userCompanyId, $jobId, $offerRate, $applicationType);
 
     if (!$stmt->execute()) {
         throw new Exception('Error submitting application');

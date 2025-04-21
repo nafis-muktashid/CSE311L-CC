@@ -10,6 +10,30 @@ if (!isset($_SESSION['email']) || $_SESSION['user_type'] !== 'company') {
 
 $companyId = $_SESSION['companyId'];
 
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['action'])) {
+        $applicationId = $_POST['applicationId'];
+        
+        if ($_POST['action'] === 'accept') {
+            $employeeId = $_POST['employeeId'];
+            if (empty($employeeId)) {
+                $_SESSION['error'] = "Please select an employee";
+            } else {
+                require_once './utilities/update_application_status.php';
+                updateApplicationStatus($applicationId, 'accepted', $employeeId);
+            }
+        } elseif ($_POST['action'] === 'reject') {
+            require_once './utilities/update_application_status.php';
+            updateApplicationStatus($applicationId, 'rejected');
+        }
+        
+        // Redirect to refresh the page
+        header("Location: manage_applications.php");
+        exit;
+    }
+}
+
 // Updated query to determine application type based on offer_rate
 $query = "SELECT 
             ja.*,
@@ -53,6 +77,15 @@ $applications = $stmt->get_result();
                 <p>Review and manage applications for your job postings</p>
             </div>
 
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-error">
+                    <?php 
+                        echo $_SESSION['error'];
+                        unset($_SESSION['error']);
+                    ?>
+                </div>
+            <?php endif; ?>
+
             <div class="applications-container">
                 <?php if($applications->num_rows > 0): ?>
                     <?php while($app = $applications->fetch_assoc()): ?>
@@ -90,18 +123,42 @@ $applications = $stmt->get_result();
                                         <?php echo ucfirst($app['status']); ?>
                                     </span>
                                 </p>
+                                
+                                <?php if($app['status'] === 'pending'): ?>
+                                    <form method="POST" class="application-form">
+                                        <input type="hidden" name="applicationId" value="<?php echo $app['applicationId']; ?>">
+                                        
+                                        <select name="employeeId" class="employee-select">
+                                            <option value="">Select an employee</option>
+                                            <?php
+                                            $empQuery = "SELECT e.employeeId, e.name, e.position 
+                                                       FROM employees e 
+                                                       WHERE e.companyId = ? AND e.availability_status = 'available'";
+                                            $stmt = $db_connection->prepare($empQuery);
+                                            $stmt->bind_param("i", $_SESSION['companyId']);
+                                            $stmt->execute();
+                                            $employees = $stmt->get_result();
+                                            
+                                            while($emp = $employees->fetch_assoc()) {
+                                                echo "<option value='" . $emp['employeeId'] . "'>" 
+                                                    . htmlspecialchars($emp['name']) 
+                                                    . " - " . htmlspecialchars($emp['position'])
+                                                    . "</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                        
+                                        <div class="action-buttons">
+                                            <button type="submit" name="action" value="accept" class="accept-btn">
+                                                <i class="fas fa-check"></i> Accept
+                                            </button>
+                                            <button type="submit" name="action" value="reject" class="reject-btn">
+                                                <i class="fas fa-times"></i> Reject
+                                            </button>
+                                        </div>
+                                    </form>
+                                <?php endif; ?>
                             </div>
-
-                            <?php if($app['status'] === 'pending'): ?>
-                                <div class="application-actions">
-                                    <button onclick="updateApplicationStatus(<?php echo $app['applicationId']; ?>, 'accepted')" class="accept-btn">
-                                        <i class="fas fa-check"></i> Accept
-                                    </button>
-                                    <button onclick="updateApplicationStatus(<?php echo $app['applicationId']; ?>, 'rejected')" class="reject-btn">
-                                        <i class="fas fa-times"></i> Reject
-                                    </button>
-                                </div>
-                            <?php endif; ?>
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>
@@ -116,5 +173,12 @@ $applications = $stmt->get_result();
     </div>
 
     <script src="./js/manage_applications.js"></script>
+    
 </body>
 </html>
+
+
+
+
+
+

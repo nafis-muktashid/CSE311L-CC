@@ -1,65 +1,57 @@
 <?php
-session_start();
-require_once 'con_db.php';
+require_once __DIR__ . '/con_db.php';  // Use __DIR__ for reliable path resolution
 
-header('Content-Type: application/json');
-
-try {
-    if (!isset($_SESSION['email']) || $_SESSION['user_type'] !== 'company') {
-        throw new Exception('Unauthorized access');
-    }
-
-    $data = json_decode(file_get_contents('php://input'), true);
-    if (!$data) {
-        throw new Exception('Invalid request data');
-    }
-
-    $applicationId = $data['applicationId'];
-    $status = $data['status'];
-
-    // Verify that this company owns the job posting
-    $query = "SELECT jp.companyId 
-              FROM jobapplications ja
-              JOIN jobpostings jp ON ja.jobId = jp.jobId
-              WHERE ja.applicationId = ?";
-
-    $stmt = $db_connection->prepare($query);
-    $stmt->bind_param("i", $applicationId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $jobData = $result->fetch_assoc();
-
-    if (!$jobData || $jobData['companyId'] != $_SESSION['companyId']) {
-        throw new Exception('Unauthorized action');
-    }
-
-    // Update application status
-    $updateQuery = "UPDATE jobapplications SET status = ? WHERE applicationId = ?";
-    $stmt = $db_connection->prepare($updateQuery);
-    $stmt->bind_param("si", $status, $applicationId);
-
-    if (!$stmt->execute()) {
-        throw new Exception('Error updating application status');
-    }
-
-    // Add notification
-    $notificationQuery = "INSERT INTO notifications (userId, message, read_status, time)
-                         SELECT ja.applyingCompanyId, 
-                                CONCAT('Your application has been ', ?, ' for job: ', jp.job_title),
-                                0,
-                                CURRENT_TIMESTAMP
-                         FROM jobapplications ja
-                         JOIN jobpostings jp ON ja.jobId = jp.jobId
-                         WHERE ja.applicationId = ?";
+function updateApplicationStatus($applicationId, $status, $employeeId = null) {
+    global $db_connection;
     
-    $stmt = $db_connection->prepare($notificationQuery);
-    $stmt->bind_param("si", $status, $applicationId);
-    $stmt->execute();
+    try {
+        $db_connection->begin_transaction();
 
-    echo json_encode(['success' => true, 'message' => 'Application status updated successfully']);
+        $query = "UPDATE jobapplications SET status = ? WHERE applicationId = ?";
+        $stmt = $db_connection->prepare($query);
+        $stmt->bind_param("si", $status, $applicationId);
+        $stmt->execute();
 
-} catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        if ($status === 'accepted') {
+            $getDetailsQuery = "SELECT jp.companyId as hiringCompanyId, ja.applyingCompanyId, ja.jobId 
+                              FROM jobapplications ja 
+                              JOIN jobpostings jp ON ja.jobId = jp.jobId 
+                              WHERE ja.applicationId = ?";
+            $stmt = $db_connection->prepare($getDetailsQuery);
+            $stmt->bind_param("i", $applicationId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $details = $result->fetch_assoc();
+
+            $createContract = "INSERT INTO contracts (start_date, end_date, status, hiringCompanyId, applyingCompanyId, jobId) 
+                             VALUES (CURDATE(), DATE_ADD(CURDATE(), INTERVAL 30 DAY), 'active', ?, ?, ?)";
+            $stmt = $db_connection->prepare($createContract);
+            $stmt->bind_param("iii", $details['hiringCompanyId'], $details['applyingCompanyId'], $details['jobId']);
+            $stmt->execute();
+            $contractId = $db_connection->insert_id;
+
+            if ($employeeId) {
+                $updateEmployee = "UPDATE employees SET availability_status = 'unavailable' WHERE employeeId = ?";
+                $stmt = $db_connection->prepare($updateEmployee);
+                $stmt->bind_param("i", $employeeId);
+                $stmt->execute();
+
+                $createAssignment = "INSERT INTO employeeassignments (contractId, companyId, employeeId) 
+                                   VALUES (?, ?, ?)";
+                $stmt = $db_connection->prepare($createAssignment);
+                $stmt->bind_param("iii", $contractId, $details['applyingCompanyId'], $employeeId);
+                $stmt->execute();
+            }
+        }
+
+        $db_connection->commit();
+        $_SESSION['success'] = $status === 'accepted' ? 'Application accepted and employee assigned successfully' : 'Application rejected successfully';
+        
+    } catch (Exception $e) {
+        $db_connection->rollback();
+        $_SESSION['error'] = $e->getMessage();
+    }
 }
+
 ?>
 
