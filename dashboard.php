@@ -71,7 +71,7 @@ $employeeCount = $employeeResult->fetch_assoc()['employee_count'];
                         <i class="fas fa-users"></i>
                         <h3>Employees</h3>
                         <p class="stat-number"><?php echo $employeeCount; ?></p>
-                        <a href="employees.php" class="manage-link">Manage Employees <i class="fas fa-arrow-right"></i></a>
+                        <a href="employees.php" class="manage-link">View Employees <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
 
