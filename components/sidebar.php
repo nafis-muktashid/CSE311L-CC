@@ -1,5 +1,9 @@
 <nav class="sidebar">
     <div class="sidebar-nav">
+        <a href="add_employees.php" class="nav-link <?php echo $activeTab === 'add_employee' ? 'active' : ''; ?>">
+            <i class="fas fa-user-plus"></i>
+            <span>Add an Employee</span>
+        </a>
         <a href="employees.php" class="nav-link <?php echo $activeTab === 'employees' ? 'active' : ''; ?>">
             <i class="fas fa-users"></i>
             <span>Employees</span>

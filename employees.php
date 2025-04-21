@@ -1,134 +1,97 @@
 <?php
 session_start();
-require_once './utilities/con_db.php';
-require_once './components/header.php';
-
+require_once './utilities/con_db.php';require_once './components/header.php';
 // Redirect to login if not logged in
-if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
-    exit;
-}
+if (!isset($_SESSION['email']) || $_SESSION['user_type'] !== 'company') {    header("Location: login.php");
+    exit;}
+$companyId = $_SESSION['companyId'];
+// Fetch employees with their skills
+$query = "SELECT             e.*,
+            ep.phone_number,            GROUP_CONCAT(CONCAT(s.skill_name, ' (', es.experience_level, ')') SEPARATOR ', ') as skills
+          FROM employees e          LEFT JOIN employeephone ep ON e.employeeId = ep.employeeId
+          LEFT JOIN employeeskills es ON e.employeeId = es.employeeId          LEFT JOIN skills s ON es.skillId = s.skillId
+          WHERE e.companyId = ?          GROUP BY e.employeeId
+          ORDER BY e.name";
+$stmt = $db_connection->prepare($query);$stmt->bind_param("i", $companyId);
+$stmt->execute();$result = $stmt->get_result();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Employees - ConnectCore</title>
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/employees.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <div class="container">
-        <?php renderHeader('employees'); ?>
-        
-        <div class="content-wrapper">
-            <?php if (isset($_SESSION['success'])): ?>
-                <div class="alert alert-success">
-                    <?php 
-                        echo $_SESSION['success'];
-                        unset($_SESSION['success']);
-                    ?>
-                </div>
-            <?php endif; ?>
-            
-            <?php if (isset($_SESSION['error'])): ?>
-                <div class="alert alert-error">
-                    <?php 
-                        echo $_SESSION['error'];
-                        unset($_SESSION['error']);
-                    ?>
-                </div>
-            <?php endif; ?>
-            
-            <div class="page-header">
-                <h1><i class="fas fa-user-plus"></i> Add New Employee</h1>
-                <p>Add a new employee to your company</p>
+<!DOCTYPE html><html lang="en">
+<head>    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>View Employees - ConnectCore</title>
+    <link rel="stylesheet" href="./css/base.css">    <link rel="stylesheet" href="./css/employee_management.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></head>
+<body>    <div class="container">
+        <?php renderHeader('employees'); ?>        
+        <div class="content-wrapper">            <div class="page-header">
+                <h1><i class="fas fa-users"></i> Your Employees</h1>                <p>Manage and view all your employees</p>
             </div>
-
-            <div class="form-container">
-                <form action="./utilities/manage_employees.php" method="POST" class="employee-form">
-                    <div class="form-group">
-                        <label for="name">
-                            <i class="fas fa-user"></i> Employee Name
-                        </label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">
-                            <i class="fas fa-envelope"></i> Email
-                        </label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="phone">
-                            <i class="fas fa-phone"></i> Phone
-                        </label>
-                        <input type="tel" id="phone" name="phone" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="position">
-                            <i class="fas fa-briefcase"></i> Position
-                        </label>
-                        <input type="text" id="position" name="position" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="rate">
-                            <i class="fas fa-dollar-sign"></i> Hourly Rate
-                        </label>
-                        <input type="number" id="rate" name="rate" min="0" step="0.01" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="availability">
-                            <i class="fas fa-clock"></i> Availability Status
-                        </label>
-                        <select id="availability" name="availability" required>
-                            <option value="available">Available</option>
-                            <option value="unavailable">Unavailable</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>
-                            <i class="fas fa-tools"></i> Skills
-                        </label>
-                        <div id="skillsContainer">
-                            <div class="skill-row">
-                                <input type="text" name="skills[]" placeholder="Skill name" required>
-                                <select name="skill_levels[]" required>
-                                    <option value="beginner">Beginner</option>
-                                    <option value="intermediate">Intermediate</option>
-                                    <option value="expert">Expert</option>
-                                </select>
-                                <button type="button" class="remove-skill" onclick="removeSkill(this)">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button type="button" class="add-skill-btn" onclick="addSkill()">
-                            <i class="fas fa-plus"></i> Add Another Skill
-                        </button>
-                    </div>
-
-                    <input type="hidden" name="action" value="add">
-                    <button type="submit" name="submit" class="submit-btn">
-                        <i class="fas fa-save"></i> Save Employee
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
+            <div class="employees-container">                <?php if($result->num_rows > 0): ?>
+                    <?php while($employee = $result->fetch_assoc()): ?>                        <div class="employee-card">
+                            <div class="employee-header">                                <h2><?php echo htmlspecialchars($employee['name']); ?></h2>
+                                <span class="position"><?php echo htmlspecialchars($employee['position']); ?></span>                            </div>
+                            <div class="employee-details">                                <p><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($employee['email']); ?></p>
+                                <p><i class="fas fa-phone"></i> <?php echo htmlspecialchars($employee['phone_number']); ?></p>                                <p><i class="fas fa-dollar-sign"></i> <?php echo htmlspecialchars($employee['rate']); ?>/hr</p>
+                                <p><i class="fas fa-clock"></i> Status: <?php echo htmlspecialchars($employee['availability_status']); ?></p>                                <?php if($employee['skills']): ?>
+                                    <p><i class="fas fa-tools"></i> Skills: <?php echo htmlspecialchars($employee['skills']); ?></p>                                <?php endif; ?>
+                            </div>                            <div class="employee-actions">
+                                <button class="edit-btn" onclick="editEmployee(<?php echo $employee['employeeId']; ?>)">                                    <i class="fas fa-edit"></i> Edit
+                                </button>                                <button class="delete-btn" onclick="deleteEmployee(<?php echo $employee['employeeId']; ?>)">
+                                    <i class="fas fa-trash"></i> Delete                                </button>
+                            </div>                        </div>
+                    <?php endwhile; ?>                <?php else: ?>
+                    <div class="no-employees">                        <i class="fas fa-users-slash"></i>
+                        <h2>No Employees Found</h2>                        <p>You haven't added any employees yet.</p>
+                        <a href="add_employees.php" class="add-employee-btn">                            <i class="fas fa-plus"></i> Add Employee
+                        </a>                    </div>
+                <?php endif; ?>            </div>
+        </div>    </div>
     <script src="./js/employees.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -5,7 +5,7 @@ require_once 'con_db.php';
 // Ensure only companies can access this endpoint
 if (!isset($_SESSION['email']) || $_SESSION['user_type'] !== 'company') {
     $_SESSION['error'] = 'Unauthorized access';
-    header('Location: ../employees.php');
+    header('Location: ../add_employees.php');
     exit;
 }
 
@@ -80,8 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
         }
     }
-    header('Location: ../employees.php');
+    header('Location: ../add_employees.php');
     exit;
 }
+
 
 
