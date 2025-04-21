@@ -39,8 +39,8 @@ $result = $stmt->get_result();
         
         <div class="content-wrapper">
             <div class="page-header">
-                <h1><i class="fas fa-briefcase"></i> My Job Postings</h1>
-                <p>View and manage all your posted jobs</p>
+                <h1><i class="fas fa-briefcase"></i> My Employee Offers</h1>
+                <p>View and manage all your posted employee offers</p>
             </div>
 
             <div class="jobs-container">

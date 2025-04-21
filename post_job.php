@@ -26,8 +26,8 @@ if (!isset($_SESSION['email'])) {
         
         <div class="content-wrapper">
             <div class="page-header">
-                <h1><i class="fas fa-plus-circle"></i> Post a New Job</h1>
-                <p>Create a new job posting for your company</p>
+                <h1><i class="fas fa-plus-circle"></i> Post a New Offer</h1>
+                <p>Create a new offer for your idle employee</p>
             </div>
 
             <div class="form-container">

@@ -74,7 +74,7 @@ $applications = $stmt->get_result();
         <div class="content-wrapper">
             <div class="page-header">
                 <h1><i class="fas fa-tasks"></i> Manage Applications</h1>
-                <p>Review and manage applications for your job postings</p>
+                <p>Review and manage applications for your Employees</p>
             </div>
 
             <?php if (isset($_SESSION['error'])): ?>

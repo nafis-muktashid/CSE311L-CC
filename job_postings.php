@@ -74,7 +74,7 @@ $result = $stmt->get_result();
         
         <div class="content-wrapper">
             <div class="page-header">
-                <h1><i class="fas fa-list-alt"></i> Available Job Postings</h1>
+                <h1><i class="fas fa-list-alt"></i> Available Employee Offers</h1>
                 <p>Browse through opportunities from other companies</p>
             </div>
 
