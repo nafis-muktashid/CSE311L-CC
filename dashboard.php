@@ -31,49 +31,69 @@ $employeeCount = $employeeResult->fetch_assoc()['employee_count'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - ConnectCore</title>
-    <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/dashboard.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Your custom CSS -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-    <div class="container">
-        <?php renderHeader('dashboard'); ?>
+    <!-- Header -->
+    <?php renderHeader('dashboard'); ?>
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar-container">
+            <?php require_once './components/sidebar.php'; ?>
+        </div>
         
-        <div class="dashboard-content">
-            <div class="welcome-section">
-                <i class="fas fa-chart-line stats-icon"></i>
-                <h1>Welcome to Your Dashboard</h1>
-                <p>Manage your employees, job postings and track applications</p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <i class="fas fa-briefcase"></i>
-                    <h3>Active Jobs</h3>
-                    <p class="stat-number"><?php echo $result->num_rows; ?></p>
+        <!-- Main Content -->
+        <div class="dashboard-container">
+            <div class="dashboard-content">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <i class="fas fa-chart-line stats-icon"></i>
+                    <h1>Welcome to Your Dashboard</h1>
+                    <p>Manage your employees, job postings and track applications</p>
                 </div>
-                <div class="stat-card">
-                    <i class="fas fa-users"></i>
-                    <h3>Employees</h3>
-                    <p class="stat-number"><?php echo $employeeCount; ?></p>
-                    <a href="employees.php" class="manage-link">Manage Employees <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </div>
 
-            <div class="recent-jobs">
-                <h2><i class="fas fa-history"></i> Recent Job Postings</h2>
-                <div class="jobs-list">
-                    <?php while($row = $result->fetch_assoc()): ?>
-                        <div class="job-card">
-                            <h3><?php echo htmlspecialchars($row['job_title']); ?></h3>
-                            <p><i class="fas fa-tools"></i> <?php echo htmlspecialchars($row['required_skill']); ?></p>
-                            <p><i class="fas fa-dollar-sign"></i> <?php echo htmlspecialchars($row['rate']); ?>/hr</p>
-                            <p class="job-status">Status: Active</p>
-                        </div>
-                    <?php endwhile; ?>
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-briefcase"></i>
+                        <h3>Active Jobs</h3>
+                        <p class="stat-number"><?php echo $result->num_rows; ?></p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <h3>Employees</h3>
+                        <p class="stat-number"><?php echo $employeeCount; ?></p>
+                        <a href="employees.php" class="manage-link">Manage Employees <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Recent Jobs -->
+                <div class="recent-jobs">
+                    <h2><i class="fas fa-history"></i> Recent Job Postings</h2>
+                    <div class="jobs-list">
+                        <?php while($row = $result->fetch_assoc()): ?>
+                            <div class="job-card">
+                                <h3><?php echo htmlspecialchars($row['job_title']); ?></h3>
+                                <p><i class="fas fa-tools"></i> <?php echo htmlspecialchars($row['required_skill']); ?></p>
+                                <p><i class="fas fa-dollar-sign"></i> <?php echo htmlspecialchars($row['rate']); ?>/hr</p>
+                                <p class="job-status">Status: Active</p>
+                            </div>
+                        <?php endwhile; ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
