@@ -84,7 +84,7 @@ $employeeCount = $employeeResult->fetch_assoc()['employee_count'];
                                 <h3><?php echo htmlspecialchars($row['job_title']); ?></h3>
                                 <p><i class="fas fa-tools"></i> <?php echo htmlspecialchars($row['required_skill']); ?></p>
                                 <p><i class="fas fa-dollar-sign"></i> <?php echo htmlspecialchars($row['rate']); ?>/hr</p>
-                                <p class="job-status">Status: Active</p>
+                                <p class="job-status">Status: <?php echo htmlspecialchars($row['status']);?></p>
                             </div>
                         <?php endwhile; ?>
                     </div>
