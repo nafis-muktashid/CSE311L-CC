@@ -34,8 +34,7 @@ $stmt->execute();$result = $stmt->get_result();
                                 <p><i class="fas fa-clock"></i> Status: <?php echo htmlspecialchars($employee['availability_status']); ?></p>                                <?php if($employee['skills']): ?>
                                     <p><i class="fas fa-tools"></i> Skills: <?php echo htmlspecialchars($employee['skills']); ?></p>                                <?php endif; ?>
                             </div>                            <div class="employee-actions">
-                                <button class="edit-btn" onclick="editEmployee(<?php echo $employee['employeeId']; ?>)">                                    <i class="fas fa-edit"></i> Edit
-                                </button>                                <form method="POST" action="utilities/delete_employee.php" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this employee?');">
+                                <form method="POST" action="utilities/delete_employee.php" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this employee?');">
                                     <input type="hidden" name="employeeId" value="<?php echo $employee['employeeId']; ?>">
                                     <button type="submit" class="delete-btn">
                                         <i class="fas fa-trash"></i> Delete
