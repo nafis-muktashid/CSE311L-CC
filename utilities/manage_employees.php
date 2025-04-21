@@ -19,13 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $db_connection->begin_transaction();
                     
                     // 1. Insert employee
-                    $query = "INSERT INTO employees (name, email, phone, position, rate, availability_status, companyId) 
-                             VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    $query = "INSERT INTO employees (name, email, position, rate, availability_status, companyId) 
+                             VALUES (?, ?, ?, ?, ?, ?)";
                     $stmt = $db_connection->prepare($query);
-                    $stmt->bind_param("ssssssi", 
+                    $stmt->bind_param("sssssi", 
                         $_POST['name'], 
                         $_POST['email'], 
-                        $_POST['phone'], 
                         $_POST['position'], 
                         $_POST['rate'], 
                         $_POST['availability'],
@@ -65,7 +64,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $stmt->execute();
                         }
                     }
-                    
+
+                    // 3. Insert phone number into employee_phone table
+                    $phoneQuery = "INSERT INTO employeephone (employeeId, phone_number) VALUES (?, ?)";
+                    $stmt = $db_connection->prepare($phoneQuery);
+                    $stmt->bind_param("is", $employeeId, $_POST['phone']);
+                    $stmt->execute();
+
                     $db_connection->commit();
                     $_SESSION['success'] = 'Employee added successfully';
                 } catch (Exception $e) {
@@ -78,4 +83,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Location: ../employees.php');
     exit;
 }
+
 

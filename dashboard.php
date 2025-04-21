@@ -1,4 +1,9 @@
 <?php
+// Add these headers at the top of the file
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+
 session_start();
 require_once './utilities/con_db.php';
 require_once './components/header.php';
@@ -51,7 +56,7 @@ $employeeCount = $employeeResult->fetch_assoc()['employee_count'];
                     <i class="fas fa-users"></i>
                     <h3>Employees</h3>
                     <p class="stat-number"><?php echo $employeeCount; ?></p>
-                    <a href="employees.php" class="stat-link">Manage Employees <i class="fas fa-arrow-right"></i></a>
+                    <a href="employees.php" class="manage-link">Manage Employees <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
 
