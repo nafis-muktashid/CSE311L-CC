@@ -14,7 +14,11 @@
         </a>
         <a href="job_postings.php" class="nav-link <?php echo $activeTab === 'job_postings' ? 'active' : ''; ?>">
             <i class="fas fa-list"></i>
-            <span>View Jobs</span>
+            <span>Find Jobs</span>
+        </a>
+        <a href="my_job_postings.php" class="nav-link <?php echo $activeTab === 'my_job_postings' ? 'active' : ''; ?>">
+            <i class="fas fa-list"></i>
+            <span>View MY Jobs</span>
         </a>
         <a href="manage_applications.php" class="nav-link <?php echo $activeTab === 'manage_applications' ? 'active' : ''; ?>">
             <i class="fas fa-tasks"></i>

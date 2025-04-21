@@ -66,6 +66,7 @@ $employeeCount = $employeeResult->fetch_assoc()['employee_count'];
                         <i class="fas fa-briefcase"></i>
                         <h3>Active Jobs</h3>
                         <p class="stat-number"><?php echo $result->num_rows; ?></p>
+                        <a href="my_job_postings.php" class="manage-link">View Jobs <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="stat-card">
                         <i class="fas fa-users"></i>
