@@ -13,6 +13,11 @@ if (!isset($_SESSION['email'])) {
 $email = $_SESSION['email'];
 $query = "SELECT * FROM jobpostings WHERE companyId = (SELECT companyId FROM companies WHERE email = '$email')";
 $result = $db_connection->query($query);
+
+// Fetch employee count
+$employeeQuery = "SELECT COUNT(*) as employee_count FROM employees WHERE companyId = (SELECT companyId FROM companies WHERE email = '$email')";
+$employeeResult = $db_connection->query($employeeQuery);
+$employeeCount = $employeeResult->fetch_assoc()['employee_count'];
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +38,7 @@ $result = $db_connection->query($query);
             <div class="welcome-section">
                 <i class="fas fa-chart-line stats-icon"></i>
                 <h1>Welcome to Your Dashboard</h1>
-                <p>Manage your job postings and track applications</p>
+                <p>Manage your employees, job postings and track applications</p>
             </div>
 
             <div class="stats-grid">
@@ -42,7 +47,12 @@ $result = $db_connection->query($query);
                     <h3>Active Jobs</h3>
                     <p class="stat-number"><?php echo $result->num_rows; ?></p>
                 </div>
-                <!-- Add more stat cards as needed -->
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Employees</h3>
+                    <p class="stat-number"><?php echo $employeeCount; ?></p>
+                    <a href="employees.php" class="stat-link">Manage Employees <i class="fas fa-arrow-right"></i></a>
+                </div>
             </div>
 
             <div class="recent-jobs">

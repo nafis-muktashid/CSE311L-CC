@@ -10,6 +10,9 @@ function renderHeader($activeTab = '') {
             <a href="dashboard.php" class="<?php echo $activeTab === 'dashboard' ? 'active' : ''; ?>">
                 <i class="fas fa-home"></i> Dashboard
             </a>
+            <a href="employees.php" class="<?php echo $activeTab === 'employees' ? 'active' : ''; ?>">
+                <i class="fas fa-users"></i> Employees
+            </a>
             <a href="post_job.php" class="<?php echo $activeTab === 'post_job' ? 'active' : ''; ?>">
                 <i class="fas fa-plus-circle"></i> Post a Job
             </a>
@@ -27,3 +30,4 @@ function renderHeader($activeTab = '') {
     <?php
 }
 ?>
+

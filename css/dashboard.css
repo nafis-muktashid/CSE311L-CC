@@ -90,6 +90,30 @@ body {
 	color: #2c3e50;
 }
 
+.stat-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: #3498db;
+	text-decoration: none;
+	margin-top: 10px;
+	font-size: 0.9rem;
+	transition: color 0.3s ease;
+}
+
+.stat-link:hover {
+	color: #2980b9;
+}
+
+.stat-link i {
+	font-size: 0.8rem;
+	transition: transform 0.3s ease;
+}
+
+.stat-link:hover i {
+	transform: translateX(4px);
+}
+
 .recent-jobs {
 	background: white;
 	padding: 20px;
