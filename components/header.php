@@ -9,13 +9,16 @@ function renderHeader($activeTab = '') {
         </div>
         <nav class="header-nav">
             <a href="dashboard.php" class="<?php echo $activeTab === 'dashboard' ? 'active' : ''; ?>">
-                <i class="fas fa-home"></i> Dashboard
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
             </a>
             <a href="notifications.php" class="<?php echo $activeTab === 'notifications' ? 'active' : ''; ?>">
-                <i class="fas fa-bell"></i> Notifications
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
             </a>
             <a href="./utilities/logout.php" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
             </a>
         </nav>
     </header>
