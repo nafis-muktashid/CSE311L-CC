@@ -69,8 +69,9 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <?php renderHeader('job_postings'); ?>
+    
     <div class="container">
-        <?php renderHeader('job_postings'); ?>
         
         <div class="content-wrapper">
             <div class="page-header">
