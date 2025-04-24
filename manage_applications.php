@@ -68,8 +68,8 @@ $applications = $stmt->get_result();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <?php renderHeader('manage_applications'); ?>
     <div class="container">
-        <?php renderHeader('manage_applications'); ?>
         
         <div class="content-wrapper">
             <div class="page-header">

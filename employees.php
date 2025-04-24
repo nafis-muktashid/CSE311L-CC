@@ -83,9 +83,7 @@ $stmt->execute();$result = $stmt->get_result();
                             <i class="fas fa-users-slash"></i>
                             <h2>No Employees Found</h2>                        
                             <p>You haven't added any employees yet.</p>
-                            <a href="add_employees.php" class="add-employee-btn">                            
-                                <i class="fas fa-plus"></i> Add Employee
-                            </a>                    
+                                               
                         </div>
                     <?php endif; ?>            
                 </div>
