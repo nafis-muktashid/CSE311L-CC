@@ -43,7 +43,7 @@ $stmt->execute();$result = $stmt->get_result();
         <div class="container">
             <?php renderHeader('employees'); ?>        
             
-            <div class="content-wrapper">            
+            <div class="content-wrapper empwrap">            
                 <div class="page-header">
                     <h1><i class="fas fa-users"></i> Your Employees</h1>                
                     <p>Manage and view all your employees</p>
