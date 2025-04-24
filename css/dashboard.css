@@ -27,7 +27,7 @@ body {
 /* Dashboard specific styles */
 .dashboard-container {
 	position: absolute;
-	top: 85px;
+	/* top: 85px; */
 	left: 250px;
 	right: 0;
 	height: 100%;
