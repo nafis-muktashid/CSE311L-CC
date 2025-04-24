@@ -40,8 +40,8 @@ $stmt->execute();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <?php renderHeader('notifications'); ?>
     <div class="container">
-        <?php renderHeader('notifications'); ?>
         
         <div class="notifications-content">
             <div class="page-header">
