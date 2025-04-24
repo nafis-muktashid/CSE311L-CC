@@ -11,7 +11,7 @@ body {
 	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 	color: #333;
 	line-height: 1.6;
-	min-height: 100vh;
+	/* min-height: 100vh; */
 }
 
 .container {
@@ -25,10 +25,13 @@ body {
 	position: relative;
 	left: 130px;
 	transform: translateX(-125px);
+	top: 95px;
+	margin-bottom: 150px;
 }
 
 .content-wrapper {
 	padding: 40px;
+	margin-top: -50px;
 }
 
 .page-header {
@@ -55,7 +58,7 @@ body {
 .form-container {
 	max-width: 600px; /* Reduced from 800px */
 	margin: 0 auto;
-	background: white;
+	background: linear-gradient(45deg, #f5f7fa 0%, #c3cfe2 100%);
 	padding: 25px; /* Reduced from 30px */
 	border-radius: 10px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

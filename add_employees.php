@@ -21,8 +21,8 @@ if (!isset($_SESSION['email'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <?php renderHeader('add_employees'); ?>
     <div class="container">
-        <?php renderHeader('employees'); ?>
         
         <div class="content-wrapper">
             <?php if (isset($_SESSION['success'])): ?>
