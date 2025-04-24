@@ -40,8 +40,8 @@ $stmt->execute();$result = $stmt->get_result();
     </head>
     <body>    
         
+        <?php renderHeader('employees'); ?>        
         <div class="container">
-            <?php renderHeader('employees'); ?>        
             
             <div class="content-wrapper empwrap">            
                 <div class="page-header">

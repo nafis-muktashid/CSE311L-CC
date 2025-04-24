@@ -21,8 +21,9 @@ if (!isset($_SESSION['email'])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <?php renderHeader('post_job'); ?>
+    
     <div class="container">
-        <?php renderHeader('post_job'); ?>
         
         <div class="content-wrapper">
             <div class="page-header">
@@ -34,14 +35,14 @@ if (!isset($_SESSION['email'])) {
                 <form action="./utilities/post_job_button.php" method="POST" class="job-form">
                     <div class="form-group">
                         <label for="job_title">
-                            <i class="fas fa-briefcase"></i> Job Title
+                            <i class="fas fa-briefcase"></i> Offer Title
                         </label>
                         <input type="text" id="job_title" name="job_title" required>
                     </div>
 
                     <div class="form-group">
                         <label for="required_skill">
-                            <i class="fas fa-tools"></i> Required Skill
+                            <i class="fas fa-tools"></i> Employee Skill
                         </label>
                         <input type="text" id="required_skill" name="required_skill" required>
                     </div>
@@ -55,7 +56,7 @@ if (!isset($_SESSION['email'])) {
 
                     <div class="form-group">
                         <label for="job_details">
-                            <i class="fas fa-file-alt"></i> Job Description
+                            <i class="fas fa-file-alt"></i> Offer Description
                         </label>
                         <textarea id="job_details" name="job_details" rows="6" required></textarea>
                     </div>

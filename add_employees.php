@@ -45,7 +45,7 @@ if (!isset($_SESSION['email'])) {
             
             <div class="page-header">
                 <h1><i class="fas fa-user-plus"></i> Add New Employee</h1>
-                <p>Add a new employee to your company</p>
+                <p>Add a new idle employee to your company profile</p>
             </div>
 
             <div class="form-container">
