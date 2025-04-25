@@ -61,7 +61,7 @@ $stmt->execute();$result = $stmt->get_result();
                                 <div class="employee-details">                                
                                     <p><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($employee['email']); ?></p>
                                     <p><i class="fas fa-phone"></i> <?php echo htmlspecialchars($employee['phone_number']); ?></p>                                
-                                    <p><i class="fas fa-dollar-sign"></i> <?php echo htmlspecialchars($employee['rate']); ?>/hr</p>
+                                    <p><i class="fa-solid fa-star"></i> <?php echo htmlspecialchars($employee['rate']); ?></p>
                                     <p><i class="fas fa-clock"></i> Status: <?php echo htmlspecialchars($employee['availability_status']); ?></p>                                
                                     <?php if($employee['skills']): ?>
                                         <p><i class="fas fa-tools"></i> Skills: <?php echo htmlspecialchars($employee['skills']); ?></p>                                
