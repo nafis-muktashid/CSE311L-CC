@@ -49,6 +49,14 @@ $stmt->execute();$result = $stmt->get_result();
                     <p>Manage and view all your employees</p>
                 </div>
                 
+                <!-- Add search bar -->
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="employeeSearch" placeholder="Search employees by name..." class="search-input">
+                    </div>
+                </div>
+                
                 <div class="employees-container">                
                     <?php if($result->num_rows > 0): ?>
                         <?php while($employee = $result->fetch_assoc()): ?>                        
@@ -81,14 +89,13 @@ $stmt->execute();$result = $stmt->get_result();
                                 </div>                        
                             </div>
                         <?php endwhile; ?>                
-                        <?php else: ?>
+                    <?php else: ?>
                         <div class="no-employees">                        
                             <i class="fas fa-users-slash"></i>
                             <h2>No Employees Found</h2>                        
                             <p>You haven't added any employees yet.</p>
-                                               
                         </div>
-                    <?php endif; ?>            
+                    <?php endif; ?>
                 </div>
             </div>    
         </div>
