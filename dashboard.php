@@ -16,7 +16,7 @@ if (!isset($_SESSION['email'])) {
 
 // Fetch company jobs if logged in as a company
 $email = $_SESSION['email'];
-$query = "SELECT * FROM jobpostings WHERE companyId = (SELECT companyId FROM companies WHERE email = '$email')";
+$query = "SELECT * FROM jobpostings WHERE companyId = (SELECT companyId FROM companies WHERE email = '$email') AND status = 'open'";
 $result = $db_connection->query($query);
 
 // Fetch employee count

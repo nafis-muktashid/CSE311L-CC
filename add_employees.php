@@ -82,7 +82,13 @@ if (!isset($_SESSION['email'])) {
                         <label for="rate">
                             <i class="fa-solid fa-star"></i> Employee Rating (1-5)
                         </label>
-                        <input type="number" id="rate" name="rate" min="0" step="0.01" required>
+                        <select id="rate" name="rate" required>
+                            <option value="1">1 - Poor</option>
+                            <option value="2">2 - Fair</option>
+                            <option value="3">3 - Good</option>
+                            <option value="4">4 - Very Good</option>
+                            <option value="5">5 - Excellent</option>
+                        </select>
                     </div>
 
                     <div class="form-group">

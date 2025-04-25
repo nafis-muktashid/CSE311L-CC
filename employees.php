@@ -49,6 +49,14 @@ $stmt->execute();$result = $stmt->get_result();
                     <p>Manage and view all your employees</p>
                 </div>
                 
+                <!-- Add search bar -->
+                <div class="search-container">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="employeeSearch" placeholder="Search employees by name..." class="search-input">
+                    </div>
+                </div>
+                
                 <div class="employees-container">                
                     <?php if($result->num_rows > 0): ?>
                         <?php while($employee = $result->fetch_assoc()): ?>                        
@@ -69,6 +77,9 @@ $stmt->execute();$result = $stmt->get_result();
                                 </div>                            
                             
                                 <div class="employee-actions">
+                                    <a href="utilities/edit_employee.php?id=<?php echo $employee['employeeId']; ?>" class="edit-btn">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
                                     <form method="POST" action="utilities/delete_employee.php" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this employee?');">
                                         <input type="hidden" name="employeeId" value="<?php echo $employee['employeeId']; ?>">
                                         <button type="submit" class="delete-btn">
@@ -78,14 +89,13 @@ $stmt->execute();$result = $stmt->get_result();
                                 </div>                        
                             </div>
                         <?php endwhile; ?>                
-                        <?php else: ?>
+                    <?php else: ?>
                         <div class="no-employees">                        
                             <i class="fas fa-users-slash"></i>
                             <h2>No Employees Found</h2>                        
                             <p>You haven't added any employees yet.</p>
-                                               
                         </div>
-                    <?php endif; ?>            
+                    <?php endif; ?>
                 </div>
             </div>    
         </div>

@@ -41,3 +41,34 @@ function removeSkill(button) {
 		skillRow.remove();
 	}
 }
+
+// Add search functionality
+document.addEventListener("DOMContentLoaded", function () {
+	const searchInput = document.getElementById("employeeSearch");
+	if (searchInput) {
+		searchInput.addEventListener("input", function () {
+			const searchTerm = this.value.toLowerCase();
+			const employeeCards = document.querySelectorAll(".employee-card");
+
+			employeeCards.forEach((card) => {
+				const employeeName = card
+					.querySelector("h2")
+					.textContent.toLowerCase();
+				if (employeeName.includes(searchTerm)) {
+					card.style.display = "";
+				} else {
+					card.style.display = "none";
+				}
+			});
+
+			// Show/hide the "No Employees Found" message
+			const noEmployeesDiv = document.querySelector(".no-employees");
+			if (noEmployeesDiv) {
+				const visibleCards = Array.from(employeeCards).some(
+					(card) => card.style.display !== "none"
+				);
+				noEmployeesDiv.style.display = visibleCards ? "none" : "block";
+			}
+		});
+	}
+});

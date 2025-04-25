@@ -78,6 +78,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['error'] = $e->getMessage();
                 }
                 break;
+            case 'edit':
+                try {
+                    $db_connection->begin_transaction();
+                    
+                    // Update employee
+                    $query = "UPDATE employees 
+                             SET name = ?, email = ?, position = ?, 
+                                 rate = ?, availability_status = ? 
+                             WHERE employeeId = ? AND companyId = ?";
+                    $stmt = $db_connection->prepare($query);
+                    $stmt->bind_param("sssssii", 
+                        $_POST['name'], 
+                        $_POST['email'], 
+                        $_POST['position'], 
+                        $_POST['rate'], 
+                        $_POST['availability'],
+                        $_POST['employeeId'],
+                        $companyId
+                    );
+                    $stmt->execute();
+
+                    // Update phone
+                    $query = "UPDATE employeephone 
+                             SET phone_number = ? 
+                             WHERE employeeId = ?";
+                    $stmt = $db_connection->prepare($query);
+                    $stmt->bind_param("si", $_POST['phone'], $_POST['employeeId']);
+                    $stmt->execute();
+
+                    // Delete existing skills
+                    $query = "DELETE FROM employeeskills WHERE employeeId = ?";
+                    $stmt = $db_connection->prepare($query);
+                    $stmt->bind_param("i", $_POST['employeeId']);
+                    $stmt->execute();
+
+                    // Add new skills
+                    if (isset($_POST['skills']) && is_array($_POST['skills'])) {
+                        $query = "INSERT INTO employeeskills (employeeId, skillId, experience_level) 
+                                 VALUES (?, (SELECT skillId FROM skills WHERE skill_name = ?), ?)";
+                        $stmt = $db_connection->prepare($query);
+                        
+                        foreach ($_POST['skills'] as $index => $skill) {
+                            $level = $_POST['skill_levels'][$index];
+                            $stmt->bind_param("iss", $_POST['employeeId'], $skill, $level);
+                            $stmt->execute();
+                        }
+                    }
+
+                    $db_connection->commit();
+                    $_SESSION['success'] = 'Employee updated successfully';
+                    
+                } catch (Exception $e) {
+                    $db_connection->rollback();
+                    $_SESSION['error'] = $e->getMessage();
+                }
+                
+                header('Location: ../employees.php');
+                exit;
         }
     }
     header('Location: ../add_employees.php');
