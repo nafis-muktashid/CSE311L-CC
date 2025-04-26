@@ -1,9 +1,22 @@
+/**
+ * Notifications Stylesheet
+ * 
+ * This stylesheet contains styles for the notifications interface.
+ * It provides a clean, card-based layout for displaying user notifications
+ * with read/unread states and timestamp indicators.
+ */
+
+/* ========== Layout & Container Styles ========== */
+
+/* Main content container with spacing */
 .notifications-content {
 	padding: 40px;
 	max-width: 800px;
 	margin: 0 auto;
 	margin-top: 100px;
 }
+
+/* ========== Page Header Styles ========== */
 
 .page-header {
 	text-align: center;
@@ -24,12 +37,17 @@
 	color: #7f8c8d;
 }
 
+/* ========== Notifications List Styles ========== */
+
 .notifications-list {
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
 }
 
+/* ========== Notification Card Styles ========== */
+
+/* Base card styling */
 .notification-card {
 	background: #fff;
 	border-radius: 8px;
@@ -38,28 +56,33 @@
 	align-items: flex-start;
 	gap: 15px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	transition: transform 0.2s;
+	transition: transform 0.2s ease;
 }
 
+/* Card hover effect */
 .notification-card:hover {
 	transform: translateY(-2px);
 }
 
+/* Unread notification styling */
 .notification-card.unread {
 	background: #f0f7ff;
 	border-left: 4px solid #3498db;
 }
 
+/* Notification icon styling */
 .notification-icon {
 	color: #3498db;
 	font-size: 1.5rem;
 	padding-top: 3px;
 }
 
+/* Notification content container */
 .notification-content {
 	flex: 1;
 }
 
+/* Notification message text */
 .notification-message {
 	margin: 0;
 	color: #2c3e50;
@@ -67,6 +90,7 @@
 	line-height: 1.4;
 }
 
+/* Timestamp styling */
 .notification-time {
 	display: block;
 	color: #95a5a6;
@@ -74,19 +98,103 @@
 	margin-top: 5px;
 }
 
+/* ========== Empty State Styles ========== */
+
+/* No notifications container */
 .no-notifications {
 	text-align: center;
 	padding: 40px;
 	color: #7f8c8d;
 }
 
+/* Empty state icon */
 .no-notifications i {
 	font-size: 3rem;
 	margin-bottom: 20px;
 	color: #bdc3c7;
 }
 
+/* Empty state heading */
 .no-notifications h2 {
 	margin-bottom: 10px;
 	color: #2c3e50;
 }
+
+/* ========== Responsive Design ========== */
+@media (max-width: 768px) {
+	.notifications-content {
+		padding: 20px;
+		margin-top: 80px;
+	}
+
+	.page-header h1 {
+		font-size: 1.75rem;
+	}
+
+	.notification-card {
+		padding: 15px;
+	}
+
+	.notification-message {
+		font-size: 0.95rem;
+	}
+
+	.notification-time {
+		font-size: 0.8rem;
+	}
+
+	.no-notifications i {
+		font-size: 2.5rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.notifications-content {
+		padding: 15px;
+		margin-top: 70px;
+	}
+
+	.notification-icon {
+		font-size: 1.25rem;
+	}
+}
+
+/**
+ * Color Variables Reference:
+ * - Primary Blue: #3498db
+ * - Text Dark: #2c3e50
+ * - Text Muted: #7f8c8d
+ * - Timestamp: #95a5a6
+ * - Icon Gray: #bdc3c7
+ * - Background: #fff
+ * - Unread Background: #f0f7ff
+ * 
+ * Dependencies:
+ * - Font Awesome for icons
+ * - base.css for foundational styles
+ * 
+ * Component Structure:
+ * - Centered content container
+ * - Page header with icon
+ * - Vertical list of notification cards
+ * - Individual notification cards with:
+ *   - Icon
+ *   - Message
+ *   - Timestamp
+ * - Empty state messaging
+ * 
+ * Breakpoints:
+ * - Desktop: > 768px
+ * - Tablet: 480px - 768px
+ * - Mobile: < 480px
+ * 
+ * Features:
+ * - Responsive layout
+ * - Read/unread states
+ * - Hover animations
+ * - Empty state handling
+ * - Card-based design
+ * - Mobile-friendly
+ * - Clean typography
+ * - Visual hierarchy
+ */

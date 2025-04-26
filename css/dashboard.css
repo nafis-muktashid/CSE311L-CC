@@ -1,13 +1,25 @@
+/**
+ * Dashboard Stylesheet
+ * 
+ * This stylesheet contains styles specific to the dashboard interface.
+ * It includes styles for the dashboard layout, statistics cards,
+ * welcome section, and job listings.
+ */
+
+/* Import Ubuntu font family
+ * Weights: 400 (regular), 500 (medium), 700 (bold)
+ * Styles: normal and italic */
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap");
 
+/* Reset default styles and establish base font */
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
 	font-family: "Ubuntu", serif;
-	/* font-weight: 400; */
 }
 
+/* Base body styles with gradient background */
 body {
 	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 	color: #333;
@@ -15,20 +27,24 @@ body {
 	min-height: 100vh;
 }
 
+/* Main container reset
+ * Removes default styling to work with dashboard layout */
 .container {
-	width: 100%; /* Changed from 90% */
-	margin: 0; /* Removed margins */
+	width: 100%;
+	margin: 0;
 	background: white;
-	border-radius: 0; /* Removed border radius */
-	box-shadow: none; /* Removed shadow */
+	border-radius: 0;
+	box-shadow: none;
 	overflow: hidden;
 }
 
-/* Dashboard specific styles */
+/* ========== Dashboard Layout ========== */
+
+/* Main dashboard container
+ * Positions content relative to sidebar */
 .dashboard-container {
 	position: absolute;
-	/* top: 85px; */
-	left: 250px;
+	left: 250px; /* Matches sidebar width */
 	right: 0;
 	height: 100%;
 	background: #f5f7fa;
@@ -36,32 +52,17 @@ body {
 	padding-top: 80px;
 }
 
+/* Content wrapper
+ * Controls maximum width and padding of dashboard content */
 .dashboard-content {
 	padding: 20px;
 	max-width: 1400px;
 	margin: 0 auto;
 }
 
-@media (max-width: 768px) {
-	.dashboard-container {
-		left: 60px;
-	}
-}
+/* ========== Welcome Section ========== */
 
-/* Add smooth transitions for better UX */
-@media (max-width: 1200px) {
-	.dashboard-content {
-		max-width: 100%;
-		padding: 15px;
-	}
-}
-
-@media (max-width: 768px) {
-	.dashboard-content {
-		padding: 10px;
-	}
-}
-
+/* Welcome card styling */
 .welcome-section {
 	text-align: center;
 	margin-bottom: 30px;
@@ -71,23 +72,29 @@ body {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Welcome section icon */
 .welcome-section .stats-icon {
 	font-size: 48px;
 	color: #3498db;
 	margin-bottom: 15px;
 }
 
+/* Welcome section heading */
 .welcome-section h1 {
 	color: #2c3e50;
 	font-size: 2.2rem;
 	margin-bottom: 10px;
 }
 
+/* Welcome section description */
 .welcome-section p {
 	color: #7f8c8d;
 	font-size: 1.1rem;
 }
 
+/* ========== Statistics Grid ========== */
+
+/* Grid container for stat cards */
 .stats-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -95,6 +102,7 @@ body {
 	margin-bottom: 30px;
 }
 
+/* Individual stat card styling */
 .stat-card {
 	background: white;
 	padding: 25px;
@@ -103,17 +111,20 @@ body {
 	text-align: center;
 }
 
+/* Stat card icon */
 .stat-card i {
 	font-size: 32px;
 	color: #3498db;
 	margin-bottom: 15px;
 }
 
+/* Stat card heading */
 .stat-card h3 {
 	color: #2c3e50;
 	margin-bottom: 10px;
 }
 
+/* Statistics number display */
 .stat-number {
 	font-size: 28px;
 	font-weight: bold;
@@ -121,6 +132,7 @@ body {
 	margin-bottom: 10px;
 }
 
+/* Management link styling */
 .manage-link {
 	display: inline-flex;
 	align-items: center;
@@ -134,11 +146,15 @@ body {
 	transition: all 0.3s ease;
 }
 
+/* Management link hover effect */
 .manage-link:hover {
 	background-color: rgba(52, 152, 219, 0.2);
 	transform: translateX(5px);
 }
 
+/* ========== Recent Jobs Section ========== */
+
+/* Recent jobs container */
 .recent-jobs {
 	background: white;
 	padding: 25px;
@@ -146,6 +162,7 @@ body {
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Section heading with icon */
 .recent-jobs h2 {
 	color: #2c3e50;
 	margin-bottom: 20px;
@@ -154,12 +171,14 @@ body {
 	gap: 10px;
 }
 
+/* Jobs grid layout */
 .jobs-list {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	gap: 20px;
 }
 
+/* Individual job card */
 .job-card {
 	background: #f8f9fa;
 	padding: 20px;
@@ -167,11 +186,13 @@ body {
 	border-left: 4px solid #3498db;
 }
 
+/* Job card title */
 .job-card h3 {
 	color: #2c3e50;
 	margin-bottom: 15px;
 }
 
+/* Job card details */
 .job-card p {
 	color: #7f8c8d;
 	margin-bottom: 8px;
@@ -180,12 +201,32 @@ body {
 	gap: 8px;
 }
 
+/* Job status indicator */
 .job-status {
 	color: #27ae60 !important;
 	font-weight: 500;
 }
 
+/* ========== Responsive Design ========== */
+
+/* Tablet breakpoint */
+@media (max-width: 1200px) {
+	.dashboard-content {
+		max-width: 100%;
+		padding: 15px;
+	}
+}
+
+/* Mobile breakpoint */
 @media (max-width: 768px) {
+	.dashboard-container {
+		left: 60px; /* Adjusted for collapsed sidebar */
+	}
+
+	.dashboard-content {
+		padding: 10px;
+	}
+
 	.stats-grid {
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		gap: 15px;
@@ -196,6 +237,7 @@ body {
 	}
 }
 
+/* Small mobile breakpoint */
 @media (max-width: 480px) {
 	.welcome-section {
 		padding: 20px;
@@ -209,3 +251,31 @@ body {
 		font-size: 1.8rem;
 	}
 }
+
+/**
+ * Color Variables Reference:
+ * Primary Colors:
+ * - Brand Blue: #3498db
+ * - Dark Blue: #2c3e50
+ * - Success Green: #27ae60
+ * - Background: #f5f7fa to #c3cfe2
+ * - Text Dark: #2c3e50
+ * - Text Muted: #7f8c8d
+ * 
+ * Dependencies:
+ * - Ubuntu font from Google Fonts
+ * - Font Awesome for icons
+ * - base.css for foundational styles
+ * - sidebar.css for sidebar layout
+ * 
+ * Layout Notes:
+ * - Dashboard container offset by sidebar width (250px)
+ * - Mobile sidebar width (60px)
+ * - Content max-width: 1400px
+ * 
+ * Breakpoints:
+ * - Desktop: 1200px+
+ * - Tablet: 768px - 1199px
+ * - Mobile: < 768px
+ * - Small Mobile: < 480px
+ */

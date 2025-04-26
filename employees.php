@@ -11,19 +11,34 @@ if (!isset($_SESSION['email']) || $_SESSION['user_type'] !== 'company') {
 }
 
 $companyId = $_SESSION['companyId'];
+$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+
 // Fetch employees with their skills
 $query = "SELECT e.*, ep.phone_number, GROUP_CONCAT(CONCAT(s.skill_name, ' (', es.experience_level, ')') SEPARATOR ', ') as skills
           FROM employees e          
           LEFT JOIN employeephone ep ON e.employeeId = ep.employeeId
           LEFT JOIN employeeskills es ON e.employeeId = es.employeeId          
           LEFT JOIN skills s ON es.skillId = s.skillId
-          WHERE e.companyId = ?          
-          GROUP BY e.employeeId
-          ORDER BY e.name";
+          WHERE e.companyId = ?";
+
+// Add search condition if search term exists
+if ($searchTerm !== '') {
+    $query .= " AND e.name LIKE ?";
+}
+
+$query .= " GROUP BY e.employeeId ORDER BY e.name";
 
 $stmt = $db_connection->prepare($query);
-$stmt->bind_param("i", $companyId);
-$stmt->execute();$result = $stmt->get_result();
+
+if ($searchTerm !== '') {
+    $searchParam = "%$searchTerm%";
+    $stmt->bind_param("is", $companyId, $searchParam);
+} else {
+    $stmt->bind_param("i", $companyId);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 
 ?>
 
@@ -49,12 +64,16 @@ $stmt->execute();$result = $stmt->get_result();
                     <p>Manage and view all your employees</p>
                 </div>
                 
-                <!-- Add search bar -->
+                <!-- PHP-based search form -->
                 <div class="search-container">
-                    <div class="search-wrapper">
+                    <form method="GET" action="" class="search-wrapper">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" id="employeeSearch" placeholder="Search employees by name..." class="search-input">
-                    </div>
+                        <input type="text" 
+                               name="search" 
+                               placeholder="Search employees by name..." 
+                               class="search-input"
+                               value="<?php echo htmlspecialchars($searchTerm); ?>">
+                    </form>
                 </div>
                 
                 <div class="employees-container">                
@@ -93,60 +112,11 @@ $stmt->execute();$result = $stmt->get_result();
                         <div class="no-employees">                        
                             <i class="fas fa-users-slash"></i>
                             <h2>No Employees Found</h2>                        
-                            <p>You haven't added any employees yet.</p>
+                            <p><?php echo $searchTerm ? 'No employees match your search.' : 'You haven\'t added any employees yet.'; ?></p>
                         </div>
                     <?php endif; ?>
                 </div>
             </div>    
         </div>
-        <script src="./js/employees.js"></script>
     </body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

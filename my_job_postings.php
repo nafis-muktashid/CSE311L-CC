@@ -79,10 +79,7 @@ $result = $stmt->get_result();
                     <div class="no-jobs">
                         <i class="fas fa-briefcase-medical"></i>
                         <h2>No Job Postings Found</h2>
-                        <p>You haven't posted any jobs yet.</p>
-                        <a href="post_job.php" class="post-job-btn">
-                            <i class="fas fa-plus"></i> Post a New Job
-                        </a>
+                        
                     </div>
                 <?php endif; ?>
             </div>

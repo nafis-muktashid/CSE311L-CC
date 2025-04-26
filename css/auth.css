@@ -1,112 +1,168 @@
+/**
+ * Authentication Pages Stylesheet
+ * 
+ * This stylesheet contains styles for the authentication-related pages including:
+ * - Login page (login.php)
+ * - Registration page (reg.php)
+ * - Password reset pages
+ * 
+ * The design follows a card-based layout with a clean, modern aesthetic
+ * using the ConnectCore brand colors and gradients.
+ */
+
+/* Main container for authentication pages
+ * Creates a full-height centered container for the auth card */
 .auth-container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 20px;
 }
 
+/* Card component that holds the authentication form
+ * Provides a floating card effect with subtle shadow */
 .auth-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    width: 100%;
-    max-width: 500px;
+	background: white;
+	border-radius: 15px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+	padding: 40px;
+	width: 100%;
+	max-width: 500px; /* Limits card width on larger screens */
 }
 
+/* Header section of the authentication card
+ * Contains the logo, title, and description */
 .auth-header {
-    text-align: center;
-    margin-bottom: 30px;
+	text-align: center;
+	margin-bottom: 30px;
 }
 
+/* Logo icon styling */
 .auth-header i {
-    font-size: 48px;
-    color: #3498db;
-    margin-bottom: 20px;
+	font-size: 48px;
+	color: #3498db; /* Primary brand color */
+	margin-bottom: 20px;
 }
 
+/* Main title styling */
 .auth-header h1 {
-    color: #2c3e50;
-    font-size: 2.2rem;
-    margin-bottom: 10px;
+	color: #2c3e50; /* Dark text color */
+	font-size: 2.2rem;
+	margin-bottom: 10px;
 }
 
+/* Subtitle/description text */
 .auth-header p {
-    color: #7f8c8d;
-    font-size: 1.1rem;
+	color: #7f8c8d; /* Muted text color */
+	font-size: 1.1rem;
 }
 
+/* Form layout container
+ * Uses CSS Grid for consistent spacing between elements */
 .auth-form {
-    display: grid;
-    gap: 20px;
+	display: grid;
+	gap: 20px;
 }
 
+/* Individual form field groups
+ * Contains label and input pairs */
 .form-group {
-    display: grid;
-    gap: 8px;
+	display: grid;
+	gap: 8px;
 }
 
+/* Form labels */
 .form-group label {
-    color: #2c3e50;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+	color: #2c3e50;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
+/* Form input fields */
 .form-group input {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
+	padding: 12px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	font-size: 1rem;
+	transition: border-color 0.3s ease;
 }
 
+/* Input focus state */
 .form-group input:focus {
-    border-color: #3498db;
-    outline: none;
+	border-color: #3498db; /* Primary brand color */
+	outline: none;
 }
 
+/* Submit button styling */
 .auth-btn {
-    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+	background: linear-gradient(
+		135deg,
+		#2c3e50 0%,
+		#3498db 100%
+	); /* Brand gradient */
+	color: white;
+	border: none;
+	padding: 12px;
+	border-radius: 8px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: transform 0.3s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
 }
 
+/* Button hover effect */
 .auth-btn:hover {
-    transform: translateY(-2px);
+	transform: translateY(-2px); /* Slight lift effect */
 }
 
+/* Additional links section (forgot password, sign up, etc.) */
 .auth-links {
-    text-align: center;
-    color: #7f8c8d;
+	text-align: center;
+	color: #7f8c8d;
 }
 
+/* Link styling */
 .auth-links a {
-    color: #3498db;
-    text-decoration: none;
+	color: #3498db;
+	text-decoration: none;
 }
 
+/* Link hover state */
 .auth-links a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
+/* Responsive adjustments for mobile devices */
 @media (max-width: 768px) {
-    .auth-card {
-        padding: 30px 20px;
-    }
+	.auth-card {
+		padding: 30px 20px; /* Reduced padding */
+	}
 
-    .auth-header h1 {
-        font-size: 1.8rem;
-    }
+	.auth-header h1 {
+		font-size: 1.8rem; /* Smaller title */
+	}
 }
+
+/**
+ * Color Variables Reference:
+ * - Primary: #3498db (Blue)
+ * - Secondary: #2c3e50 (Dark Blue)
+ * - Text Dark: #2c3e50
+ * - Text Muted: #7f8c8d
+ * - Border: #ddd
+ * 
+ * Dependencies:
+ * - Font Awesome 6.0.0 for icons
+ * - Ubuntu font from Google Fonts
+ * 
+ * Integration Notes:
+ * - Requires base.css for foundational styles
+ * - Assumes Font Awesome is included in the HTML
+ * - Works in conjunction with the auth layout in login.php and reg.php
+ */
