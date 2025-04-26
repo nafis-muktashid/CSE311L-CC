@@ -1,7 +1,20 @@
+/**
+ * Manage Applications Stylesheet
+ * 
+ * This stylesheet contains styles for the applications management interface.
+ * It provides a responsive grid layout for displaying job applications,
+ * status indicators, and employee assignment functionality.
+ */
+
+/* ========== Layout & Container Styles ========== */
+
+/* Main content wrapper with header offset */
 .content-wrapper {
 	padding: 40px;
 	margin-top: 150px;
 }
+
+/* ========== Page Header Styles ========== */
 
 .page-header {
 	text-align: center;
@@ -23,12 +36,18 @@
 	font-size: 1.1rem;
 }
 
+/* ========== Applications Grid Layout ========== */
+
+/* Responsive grid container for application cards */
 .applications-container {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	gap: 20px;
 }
 
+/* ========== Application Card Styles ========== */
+
+/* Individual application card */
 .application-card {
 	background: white;
 	border-radius: 10px;
@@ -36,23 +55,28 @@
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
-	/* Removed the transform transition and hover effect */
 }
 
+/* Card header with job title */
 .application-header h2 {
 	margin: 0 0 10px 0;
 	color: #2c3e50;
 }
 
+/* Company name styling */
 .company-name {
 	color: #7f8c8d;
 	font-size: 0.9em;
 }
 
+/* ========== Application Details Styles ========== */
+
+/* Details section container */
 .application-details {
 	margin: 15px 0;
 }
 
+/* Individual detail items */
 .application-details p {
 	margin: 8px 0;
 	display: flex;
@@ -60,27 +84,29 @@
 	gap: 8px;
 }
 
+/* Status indicator colors */
 .status-pending {
 	color: #f39c12;
 }
-
 .status-accepted {
 	color: #27ae60;
 }
-
 .status-rejected {
 	color: #c0392b;
 }
-
 .status-withdrawn {
 	color: #7f8c8d;
 }
 
+/* ========== Action Button Styles ========== */
+
+/* Action buttons container */
 .application-actions {
 	margin-top: auto;
 	width: 100%;
 }
 
+/* Accept and reject buttons base styles */
 .accept-btn,
 .reject-btn {
 	padding: 8px 16px;
@@ -93,6 +119,7 @@
 	transition: background-color 0.3s ease;
 }
 
+/* Accept button styles */
 .accept-btn {
 	background-color: #27ae60;
 	color: white;
@@ -102,6 +129,7 @@
 	background-color: #219a52;
 }
 
+/* Reject button styles */
 .reject-btn {
 	background-color: #e74c3c;
 	color: white;
@@ -111,6 +139,9 @@
 	background-color: #c0392b;
 }
 
+/* ========== Empty State Styles ========== */
+
+/* No applications message container */
 .no-applications {
 	grid-column: 1 / -1;
 	text-align: center;
@@ -135,6 +166,9 @@
 	color: #7f8c8d;
 }
 
+/* ========== Employee Assignment Styles ========== */
+
+/* Employee assignment section */
 .employee-assignment-section {
 	width: 100%;
 	margin-top: 15px;
@@ -142,12 +176,14 @@
 	border-top: 1px solid #eee;
 }
 
+/* Employee select container */
 .employee-select-container {
 	margin-top: 15px;
 	padding-top: 15px;
 	border-top: 1px solid #eee;
 }
 
+/* Employee dropdown styling */
 .employee-select {
 	width: 100%;
 	padding: 8px;
@@ -157,12 +193,15 @@
 	background-color: white;
 }
 
+/* ========== Action Buttons Container ========== */
+
 .action-buttons {
 	display: flex;
 	gap: 10px;
 	justify-content: flex-end;
 }
 
+/* Confirm and cancel buttons */
 .confirm-btn,
 .cancel-btn {
 	padding: 8px 15px;
@@ -184,6 +223,7 @@
 	color: white;
 }
 
+/* Initial action buttons */
 .initial-buttons {
 	display: flex;
 	gap: 10px;
@@ -191,27 +231,7 @@
 	width: 100%;
 }
 
-.accept-btn,
-.reject-btn {
-	padding: 8px 15px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	gap: 5px;
-}
-
-.accept-btn {
-	background-color: #4caf50;
-	color: white;
-}
-
-.reject-btn {
-	background-color: #f44336;
-	color: white;
-}
-
+/* Button hover states */
 .accept-btn:hover,
 .confirm-btn:hover {
 	background-color: #45a049;
@@ -222,7 +242,9 @@
 	background-color: #da190b;
 }
 
-/* Remove any position: fixed or absolute from these elements */
+/* ========== Modal Styles ========== */
+
+/* Reset modal positioning */
 #assignEmployeeModal,
 .modal-content {
 	position: static;
@@ -233,6 +255,7 @@
 	box-shadow: none;
 }
 
+/* ========== Responsive Design ========== */
 @media (max-width: 768px) {
 	.content-wrapper {
 		padding: 20px;
@@ -246,3 +269,37 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+/**
+ * Color Variables Reference:
+ * - Text Dark: #2c3e50
+ * - Text Muted: #7f8c8d
+ * - Success Green: #27ae60, #219a52, #4caf50, #45a049
+ * - Danger Red: #e74c3c, #c0392b, #f44336, #da190b
+ * - Warning Yellow: #f39c12
+ * - Border Color: #ddd, #eee
+ * - Icon Gray: #bdc3c7
+ * 
+ * Dependencies:
+ * - Font Awesome for icons
+ * - base.css for foundational styles
+ * 
+ * Component Structure:
+ * - Application cards using CSS Grid
+ * - Status indicators
+ * - Action buttons
+ * - Employee assignment dropdown
+ * - Empty state messaging
+ * 
+ * Breakpoints:
+ * - Desktop: 768px+
+ * - Mobile: < 768px
+ * 
+ * Features:
+ * - Responsive grid layout
+ * - Status color coding
+ * - Interactive buttons
+ * - Employee assignment
+ * - Empty state handling
+ * - Mobile-friendly design
+ */

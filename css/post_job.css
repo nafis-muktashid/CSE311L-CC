@@ -1,5 +1,16 @@
+/**
+ * Post Job Form Stylesheet
+ * 
+ * This stylesheet contains styles for the job posting interface.
+ * It provides a clean, professional form layout for companies
+ * to create and edit job listings with responsive design
+ * and modern visual elements.
+ */
+
+/* ========== Font Import ========== */
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap");
 
+/* ========== Base Styles ========== */
 * {
 	margin: 0;
 	padding: 0;
@@ -14,6 +25,7 @@ body {
 	min-height: 100vh;
 }
 
+/* ========== Layout Container ========== */
 .container {
 	width: 90%;
 	max-width: 1200px;
@@ -25,6 +37,7 @@ body {
 	margin-top: 150px;
 }
 
+/* ========== Header Styles ========== */
 header {
 	background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
 	color: white;
@@ -49,6 +62,7 @@ header h2 {
 	font-weight: 500;
 }
 
+/* ========== Navigation Styles ========== */
 nav {
 	display: flex;
 	gap: 15px;
@@ -84,10 +98,12 @@ nav a.active {
 	background-color: rgba(231, 76, 60, 1) !important;
 }
 
+/* ========== Content Styles ========== */
 .content-wrapper {
 	padding: 40px;
 }
 
+/* ========== Page Header Styles ========== */
 .page-header {
 	text-align: center;
 	margin-bottom: 40px;
@@ -108,6 +124,7 @@ nav a.active {
 	font-size: 1.1rem;
 }
 
+/* ========== Form Container Styles ========== */
 .form-container {
 	max-width: 800px;
 	margin: 0 auto;
@@ -117,6 +134,7 @@ nav a.active {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* ========== Form Styles ========== */
 .job-form {
 	display: grid;
 	gap: 20px;
@@ -150,6 +168,7 @@ nav a.active {
 	outline: none;
 }
 
+/* ========== Button Styles ========== */
 .submit-btn {
 	background: #3498db;
 	color: white;
@@ -169,6 +188,7 @@ nav a.active {
 	background: #2980b9;
 }
 
+/* ========== Alert Styles ========== */
 .alert {
 	padding: 16px;
 	border-radius: 8px;
@@ -192,6 +212,7 @@ nav a.active {
 	border: 1px solid #f5c6cb;
 }
 
+/* ========== Responsive Design ========== */
 @media (max-width: 768px) {
 	.container {
 		width: 95%;
@@ -222,3 +243,44 @@ nav a.active {
 		padding: 20px;
 	}
 }
+
+/**
+ * Color Variables Reference:
+ * - Primary Blue: #3498db, #2980b9
+ * - Dark Blue: #2c3e50
+ * - Text Gray: #7f8c8d
+ * - Border Gray: #ddd
+ * - Success Colors: #d4edda, #155724, #c3e6cb
+ * - Error Colors: #f8d7da, #721c24, #f5c6cb
+ * - Gradient Colors: #f5f7fa, #c3cfe2
+ * - Logout Red: rgba(231, 76, 60, 0.8)
+ * 
+ * Dependencies:
+ * - Ubuntu font from Google Fonts
+ * - Font Awesome for icons
+ * - base.css for foundational styles
+ * 
+ * Component Structure:
+ * - Main container with gradient background
+ * - Header with navigation
+ * - Centered form container
+ * - Form groups with labels and inputs
+ * - Submit button
+ * - Alert messages
+ * 
+ * Breakpoints:
+ * - Desktop: > 768px
+ * - Mobile: ≤ 768px
+ * 
+ * Features:
+ * - Responsive layout
+ * - Form validation styles
+ * - Interactive hover states
+ * - Alert messaging system
+ * - Gradient backgrounds
+ * - Shadow effects
+ * - Mobile-friendly design
+ * - Clean typography
+ * - Visual feedback
+ * - Accessible form controls
+ */

@@ -1,6 +1,15 @@
+/**
+ * Sidebar Navigation Stylesheet
+ * 
+ * This stylesheet contains styles for the main navigation sidebar
+ * used across all authenticated company pages in the ConnectCore application.
+ * It provides a responsive, collapsible sidebar with smooth transitions
+ * and modern visual elements.
+ */
+
+/* ========== Sidebar Container ========== */
 .sidebar-container {
 	position: absolute;
-	/* top: 85px; */
 	left: 0;
 	width: 250px;
 	height: 100%;
@@ -9,6 +18,7 @@
 	transition: width 0.3s ease;
 }
 
+/* ========== Navigation Layout ========== */
 .sidebar-nav {
 	display: flex;
 	flex-direction: column;
@@ -16,6 +26,7 @@
 	padding: 20px 15px;
 }
 
+/* ========== Navigation Links ========== */
 .nav-link {
 	display: flex;
 	align-items: center;
@@ -28,31 +39,110 @@
 	background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Hover state */
 .nav-link:hover {
 	background-color: rgba(255, 255, 255, 0.2);
 	transform: translateX(5px);
 }
 
+/* Active state */
 .nav-link.active {
 	background-color: rgba(255, 255, 255, 0.25);
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Icon styles */
+.nav-link i {
+	font-size: 1.2rem;
+	width: 20px;
+	text-align: center;
+}
+
+/* Link text */
+.nav-link span {
+	font-weight: 500;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* ========== Responsive Design ========== */
 @media (max-width: 768px) {
+	/* Collapsed sidebar */
 	.sidebar-container {
 		width: 60px;
 	}
 
+	/* Adjusted padding for icons */
 	.sidebar-nav {
 		padding: 20px 5px;
 	}
 
+	/* Centered icons */
 	.nav-link {
 		padding: 12px;
 		justify-content: center;
 	}
 
+	/* Hide text on mobile */
 	.nav-link span {
 		display: none;
 	}
 }
+
+/**
+ * Color Variables Reference:
+ * - Gradient Start: #2c3e50 (Dark Blue)
+ * - Gradient End: #3498db (Light Blue)
+ * - Link Background: rgba(255, 255, 255, 0.1)
+ * - Link Hover: rgba(255, 255, 255, 0.2)
+ * - Link Active: rgba(255, 255, 255, 0.25)
+ * - Text Color: white
+ * - Shadow Color: rgba(0, 0, 0, 0.1)
+ * 
+ * Dependencies:
+ * - Font Awesome for icons
+ * - base.css for foundational styles
+ * 
+ * Component Structure:
+ * - Fixed-position sidebar container
+ * - Vertical navigation list
+ * - Individual nav links with icons
+ * - Collapsible responsive design
+ * 
+ * Breakpoints:
+ * - Desktop: > 768px (expanded sidebar: 250px)
+ * - Mobile: ≤ 768px (collapsed sidebar: 60px)
+ * 
+ * Features:
+ * - Smooth width transition
+ * - Hover animations
+ * - Active state indicators
+ * - Gradient background
+ * - Shadow effects
+ * - Icon-only mobile view
+ * - Accessible navigation
+ * - Text overflow handling
+ * 
+ * Integration Notes:
+ * - Requires Font Awesome icons
+ * - Works with sidebar.php component
+ * - Coordinates with dashboard.css for content positioning
+ * - Assumes header height of 85px for positioning
+ * 
+ * Accessibility:
+ * - High contrast text colors
+ * - Clear active states
+ * - Adequate touch targets
+ * - Visible focus indicators
+ * 
+ * Usage:
+ * <div class="sidebar-container">
+ *   <nav class="sidebar-nav">
+ *     <a href="#" class="nav-link">
+ *       <i class="fas fa-icon"></i>
+ *       <span>Link Text</span>
+ *     </a>
+ *   </nav>
+ * </div>
+ */

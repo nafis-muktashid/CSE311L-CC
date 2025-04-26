@@ -1,5 +1,18 @@
+/**
+ * Base Stylesheet
+ * 
+ * This is the foundational stylesheet for the ConnectCore application.
+ * It provides core styling, layout structures, and responsive design patterns
+ * that are used across all pages of the application.
+ */
+
+/* Import Ubuntu font family from Google Fonts
+ * Weights: 400 (regular), 500 (medium), 700 (bold)
+ * Styles: normal and italic */
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap");
 
+/* Reset default styles and establish base font
+ * Ensures consistent styling across browsers */
 * {
 	margin: 0;
 	padding: 0;
@@ -7,12 +20,17 @@
 	font-family: "Ubuntu", sans-serif;
 }
 
+/* Base body styles
+ * Sets minimum height and background gradient */
 body {
 	min-height: 100vh;
 	background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
 
-/* Header */
+/* ========== Header Component ========== */
+
+/* Main header bar
+ * Fixed position header that stays at top of viewport */
 .main-header {
 	position: fixed;
 	top: 0;
@@ -28,6 +46,8 @@ body {
 	align-items: center;
 }
 
+/* Left section of header
+ * Contains company logo and name */
 .header-left {
 	display: flex;
 	align-items: center;
@@ -35,21 +55,26 @@ body {
 	color: white;
 }
 
+/* Company icon styling */
 .company-icon {
 	font-size: 24px;
 }
 
+/* Company name styling */
 .header-left h2 {
 	font-size: 1.5rem;
 	font-weight: 500;
 	color: white;
 }
 
+/* Navigation menu in header
+ * Contains main navigation links */
 .header-nav {
 	display: flex;
 	gap: 15px;
 }
 
+/* Navigation link styling */
 .header-nav a {
 	color: white;
 	text-decoration: none;
@@ -62,43 +87,86 @@ body {
 	background-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Navigation link hover effect */
 .header-nav a:hover {
 	background-color: rgba(255, 255, 255, 0.2);
 	transform: translateY(-2px);
 }
 
+/* Active navigation link state */
 .header-nav a.active {
 	background-color: rgba(255, 255, 255, 0.25);
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Logout button specific styling */
 .logout-btn {
 	background-color: rgba(231, 76, 60, 0.8) !important;
 }
 
+/* Logout button hover state */
 .logout-btn:hover {
 	background-color: rgba(231, 76, 60, 1) !important;
 }
 
+/* ========== Responsive Design ========== */
+
+/* Mobile-specific adjustments */
 @media (max-width: 768px) {
+	/* Hide text in navigation links */
 	.header-nav a span {
 		display: none;
 	}
 
+	/* Adjust navigation padding */
 	.header-nav a {
 		padding: 10px;
 	}
 
+	/* Reduce company name size */
 	.header-left h2 {
 		font-size: 1.2rem;
 	}
 }
 
-/* Main layout structure */
+/* ========== Main Layout Structure ========== */
+
+/* Main content wrapper
+ * Provides proper spacing below fixed header */
 .wrapper {
 	position: fixed;
-	top: 85px;
+	top: 85px; /* Matches header height */
 	left: 0;
 	right: 0;
 	bottom: 0;
 }
+
+/**
+ * Color Variables Reference:
+ * Primary Colors:
+ * - Header Gradient: #2c3e50 to #3498db
+ * - Background Gradient: #f5f7fa to #c3cfe2
+ * - Logout Button: rgba(231, 76, 60, 0.8)
+ * 
+ * Interactive States:
+ * - Nav Hover: rgba(255, 255, 255, 0.2)
+ * - Nav Active: rgba(255, 255, 255, 0.25)
+ * 
+ * Dependencies:
+ * - Ubuntu font from Google Fonts
+ * - Font Awesome for icons (not imported here)
+ * 
+ * Layout Notes:
+ * - Header height is fixed at 85px
+ * - Content should account for header offset
+ * - Mobile breakpoint at 768px
+ * 
+ * Usage:
+ * This is a core stylesheet that should be included in all pages
+ * before other specific stylesheets. It provides the foundation
+ * for consistent styling across the application.
+ * 
+ * Integration:
+ * <link rel="stylesheet" href="css/base.css">
+ * Should be the first CSS file loaded after any CSS reset
+ */

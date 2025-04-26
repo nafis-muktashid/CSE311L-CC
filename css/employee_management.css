@@ -1,10 +1,25 @@
+/**
+ * Employee Management Stylesheet
+ * 
+ * This stylesheet contains styles for the employee management interface,
+ * including employee cards, actions, search functionality, and modals.
+ * It provides a responsive grid layout for displaying employee information
+ * and interactive elements for managing employee data.
+ */
+
+/* ========== Layout & Container Styles ========== */
+
+/* Main content wrapper */
 .content-wrapper {
 	padding: 40px;
 }
 
+/* Employee wrapper offset for header */
 .empwrap {
 	margin-top: 150px;
 }
+
+/* ========== Page Header Styles ========== */
 
 .page-header {
 	text-align: center;
@@ -26,12 +41,18 @@
 	font-size: 1.1rem;
 }
 
+/* ========== Employee Grid Layout ========== */
+
+/* Responsive grid container for employee cards */
 .employees-container {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	gap: 20px;
 }
 
+/* ========== Employee Card Styles ========== */
+
+/* Individual employee card */
 .employee-card {
 	background: white;
 	border-radius: 10px;
@@ -44,6 +65,7 @@
 	transform: translateY(-5px);
 }
 
+/* Employee card header with avatar */
 .employee-header {
 	display: flex;
 	align-items: center;
@@ -51,6 +73,7 @@
 	margin-bottom: 15px;
 }
 
+/* Employee avatar circle */
 .employee-avatar {
 	width: 60px;
 	height: 60px;
@@ -63,6 +86,7 @@
 	color: #7f8c8d;
 }
 
+/* Employee information section */
 .employee-info h2 {
 	color: #2c3e50;
 	font-size: 1.4rem;
@@ -74,6 +98,7 @@
 	font-size: 0.9em;
 }
 
+/* Employee details section */
 .employee-details {
 	margin: 15px 0;
 }
@@ -86,6 +111,7 @@
 	color: #666;
 }
 
+/* Status indicators */
 .status-available {
 	color: #27ae60;
 	font-weight: 500;
@@ -96,6 +122,7 @@
 	font-weight: 500;
 }
 
+/* Employee rating display */
 .employee-rating {
 	display: flex;
 	align-items: center;
@@ -107,12 +134,16 @@
 	color: #f1c40f;
 }
 
+/* ========== Action Buttons ========== */
+
+/* Action buttons container */
 .employee-actions {
 	display: flex;
 	gap: 10px;
 	margin-top: 15px;
 }
 
+/* Common button styles */
 .edit-btn,
 .delete-btn {
 	padding: 8px 16px;
@@ -125,6 +156,7 @@
 	transition: background-color 0.3s ease;
 }
 
+/* Edit button specific styles */
 .edit-btn {
 	background-color: #3498db;
 	color: white;
@@ -135,6 +167,7 @@
 	background-color: #2980b9;
 }
 
+/* Delete button specific styles */
 .delete-btn {
 	background-color: #e74c3c;
 	color: white;
@@ -144,6 +177,7 @@
 	background-color: #c0392b;
 }
 
+/* Add employee floating button */
 .add-employee-btn {
 	position: fixed;
 	bottom: 30px;
@@ -167,6 +201,9 @@
 	background-color: #219a52;
 }
 
+/* ========== Empty State Styles ========== */
+
+/* No employees message */
 .no-employees {
 	grid-column: 1 / -1;
 	text-align: center;
@@ -191,25 +228,9 @@
 	color: #7f8c8d;
 }
 
-@media (max-width: 768px) {
-	.content-wrapper {
-		padding: 20px;
-	}
+/* ========== Modal Styles ========== */
 
-	.page-header h1 {
-		font-size: 1.8rem;
-	}
-
-	.employees-container {
-		grid-template-columns: 1fr;
-	}
-
-	.add-employee-btn {
-		bottom: 20px;
-		right: 20px;
-	}
-}
-
+/* Modal overlay */
 .modal {
 	display: none;
 	position: fixed;
@@ -221,6 +242,7 @@
 	background-color: rgba(0, 0, 0, 0.5);
 }
 
+/* Modal content container */
 .modal-content {
 	background-color: #fefefe;
 	margin: 15% auto;
@@ -244,6 +266,7 @@
 	border-radius: 4px;
 }
 
+/* Modal button container */
 .modal-buttons {
 	display: flex;
 	justify-content: flex-end;
@@ -251,6 +274,7 @@
 	margin-top: 20px;
 }
 
+/* Modal close button */
 .close {
 	color: #aaa;
 	float: right;
@@ -263,12 +287,16 @@
 	color: #000;
 }
 
+/* ========== Search Functionality ========== */
+
+/* Search container with animation */
 .search-container {
 	margin: 30px 0;
 	padding: 0 20px;
 	animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Search input wrapper */
 .search-wrapper {
 	position: relative;
 	max-width: 600px;
@@ -289,6 +317,7 @@
 	transform: translateY(-2px);
 }
 
+/* Search input field */
 .search-input {
 	width: 100%;
 	padding: 15px 45px;
@@ -310,6 +339,7 @@
 	border-color: #3498db;
 }
 
+/* Search icon */
 .search-icon {
 	position: absolute;
 	left: 18px;
@@ -325,7 +355,8 @@
 	color: #3498db;
 }
 
-/* Animation keyframes */
+/* ========== Animations ========== */
+
 @keyframes fadeIn {
 	from {
 		opacity: 0;
@@ -337,8 +368,26 @@
 	}
 }
 
-/* Responsive adjustments */
+/* ========== Responsive Design ========== */
+
 @media (max-width: 768px) {
+	.content-wrapper {
+		padding: 20px;
+	}
+
+	.page-header h1 {
+		font-size: 1.8rem;
+	}
+
+	.employees-container {
+		grid-template-columns: 1fr;
+	}
+
+	.add-employee-btn {
+		bottom: 20px;
+		right: 20px;
+	}
+
 	.search-container {
 		margin: 20px 0;
 		padding: 0 15px;
@@ -359,7 +408,8 @@
 	}
 }
 
-/* Dark mode support */
+/* ========== Dark Mode Support ========== */
+
 @media (prefers-color-scheme: dark) {
 	.search-wrapper {
 		background-color: #ffffff;
@@ -374,3 +424,38 @@
 		color: #95a5a6;
 	}
 }
+
+/**
+ * Color Variables Reference:
+ * Primary Colors:
+ * - Brand Blue: #3498db
+ * - Dark Blue: #2c3e50
+ * - Success Green: #27ae60
+ * - Danger Red: #e74c3c
+ * - Warning Yellow: #f1c40f
+ * - Text Dark: #2c3e50
+ * - Text Muted: #7f8c8d
+ * - Border Color: #ddd
+ * 
+ * Dependencies:
+ * - Font Awesome for icons
+ * - base.css for foundational styles
+ * 
+ * Component Structure:
+ * - Employee cards use CSS Grid for responsive layout
+ * - Modal system for employee actions
+ * - Floating action button for adding employees
+ * - Search functionality with animations
+ * 
+ * Breakpoints:
+ * - Desktop: 768px+
+ * - Mobile: < 768px
+ * 
+ * Features:
+ * - Responsive grid layout
+ * - Interactive hover states
+ * - Smooth transitions
+ * - Dark mode support
+ * - Search functionality
+ * - Modal system
+ */
