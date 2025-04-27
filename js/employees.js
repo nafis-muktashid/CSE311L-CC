@@ -80,51 +80,7 @@ function removeSkill(button) {
 	}
 }
 
-// ========== Search Functionality ==========
 
-/**
- * Initializes real-time employee search functionality
- * Features:
- * - Case-insensitive search
- * - Immediate results filtering
- * - Dynamic "No Results" message
- */
-document.addEventListener("DOMContentLoaded", function () {
-	const searchInput = document.getElementById("employeeSearch");
-
-	if (searchInput) {
-		searchInput.addEventListener("input", function () {
-			const searchTerm = this.value.toLowerCase();
-			const employeeCards = document.querySelectorAll(".employee-card");
-
-			employeeCards.forEach((card) => {
-				const employeeName = card
-					.querySelector("h2")
-					.textContent.toLowerCase();
-				card.style.display = employeeName.includes(searchTerm)
-					? ""
-					: "none";
-			});
-
-			// Handle "No Employees Found" message visibility
-			updateNoEmployeesMessage(employeeCards);
-		});
-	}
-});
-
-/**
- * Updates visibility of "No Employees Found" message
- * @param {NodeList} employeeCards - Collection of employee card elements
- */
-function updateNoEmployeesMessage(employeeCards) {
-	const noEmployeesDiv = document.querySelector(".no-employees");
-	if (noEmployeesDiv) {
-		const visibleCards = Array.from(employeeCards).some(
-			(card) => card.style.display !== "none"
-		);
-		noEmployeesDiv.style.display = visibleCards ? "none" : "block";
-	}
-}
 
 /**
  * Component Integration Notes:
